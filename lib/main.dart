@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:patienttracking/AllScreens/splashscreen.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.lightBlueAccent));
   runApp(const MyApp());
 }
 
