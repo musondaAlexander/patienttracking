@@ -56,7 +56,7 @@ class _ForgetFormWidgetState extends State<ForgetFormWidget> {
             const SizedBox(height: 30),
             TextFormField(
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.person_outline_rounded),
+                prefixIcon: const Icon(Icons.person_outline_rounded),
                 labelText: "Full Name",
                 hintText: "Full Name",
                 border:
@@ -75,7 +75,7 @@ class _ForgetFormWidgetState extends State<ForgetFormWidget> {
                 return null;
               },
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.email_outlined),
+                prefixIcon: const Icon(Icons.email_outlined),
                 labelText: "Email",
                 hintText: "Email",
                 border:

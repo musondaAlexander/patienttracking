@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:patienttracking/User/screens/SignUp/signupScreen.dart';
+import 'package:patienttracking/commonScreens/Login/loginScreen.dart';
 
 class FooterWidget extends StatelessWidget {
   final String Texts, Title;
@@ -24,9 +26,9 @@ class FooterWidget extends StatelessWidget {
                         side: const BorderSide(color: Colors.transparent)))),
             onPressed: () {
               if (Title == "Login") {
-                // Get.off(() => const LoginScreen());
+                Get.off(() => const LogingScreen());
               } else {
-                // Get.to(() => const SignUpScreen());
+                Get.to(() => const SignUpScreen());
               }
             },
             child: Text.rich(
