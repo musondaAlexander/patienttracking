@@ -88,7 +88,8 @@ class ForgetPassword extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           const Image(
-                              image: AssetImage("assets/logos/logoicon.ico"),
+                              image:
+                                  AssetImage("assets/logos/logoiconwhite.png"),
                               height: 100),
                           Container(
                             margin: const EdgeInsets.only(top: 8),

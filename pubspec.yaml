@@ -69,6 +69,8 @@ flutter:
     - assets/logos/emergencyAppLogo.png
     - assets/logos/policeman.png
     - assets/logos/logoicon.ico
+    - assets/logos/logoiconred.png
+    - assets/logos/logoiconwhite.png
     - assets/logos/ambulance.png
     - assets/logos/fire-brigade.png
     - assets/Ambulance.png

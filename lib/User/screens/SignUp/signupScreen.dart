@@ -63,7 +63,8 @@ class SignUpScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image(
-                          image: const AssetImage("assets/logos/logoicon.ico"),
+                          image: const AssetImage(
+                              "assets/logos/logoiconwhite.png"),
                           height: Get.height * 0.1),
                       Container(
                         margin: const EdgeInsets.only(top: 8),

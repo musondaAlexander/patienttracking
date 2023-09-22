@@ -167,7 +167,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
             ),
             SizedBox(
               width: double.infinity,
-              height: 50,
+              height: 40,
               child:
 
                   //SIGN UP BUTTON THAT WILL SHOW A DIALOG BOX FOR USER  FIRST TO AGREE UPON TERMS AND CONDITIONS, THEN WILL REGISTER
@@ -187,28 +187,28 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
                             return AlertDialog(
                                 title: const Center(
                                     child: Text("Terms & Conditions")),
-                                insetPadding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
+                                insetPadding: const EdgeInsets.symmetric(
+                                    horizontal: 13, vertical: 10),
                                 titleTextStyle: const TextStyle(
                                     color: Colors.lightBlueAccent,
-                                    fontSize: 20,
+                                    fontSize: 12,
                                     fontWeight: FontWeight.bold),
                                 shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(15.0))),
                                 scrollable: true,
-                                content: Wrap(
+                                content: const Wrap(
                                   runAlignment: WrapAlignment.center,
                                   runSpacing: 10,
-                                  children: const [
+                                  children: [
                                     Text(
                                       "User Agreement",
                                       style: TextStyle(
-                                          fontSize: 20,
+                                          fontSize: 30,
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      "Welcome to Emergency Services. Our app provides a platform for quick response services from police, ambulance, and firefighters in times of emergency.",
+                                      "Welcome to Patient Tracking Application. Our app provides a platform for quick response services from police, ambulance, and firefighters in times of Disasters.",
                                       style: TextStyle(
                                           fontSize: 15, fontFamily: 'Roboto'),
                                     ),
@@ -239,7 +239,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
                                                 });
                                               })),
                                           const Text(
-                                            'I agree with the Terms and Conditions',
+                                            'I agree with terms & conditions',
                                             style: TextStyle(
                                                 fontFamily: 'Roboto',
                                                 fontWeight: FontWeight.bold),
