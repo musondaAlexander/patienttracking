@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:patienttracking/AllScreens/splashscreen.dart';
+import 'package:patienttracking/commonScreens/splashscreen.dart';
 import 'package:flutter/services.dart';
 
-void main() {
-SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.lightBlueAccent));
+void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+  SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.lightBlueAccent));
   runApp(const MyApp());
 }
 
@@ -13,7 +16,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -25,4 +27,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

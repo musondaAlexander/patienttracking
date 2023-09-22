@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "361146679726",
+    "project_id": "patienttracking-94d81",
+    "storage_bucket": "patienttracking-94d81.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361146679726:android:049c9af2370a4d1bcb083f",
+        "android_client_info": {
+          "package_name": "com.example.patienttracking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3HtSIucwKV4MxLSbI0z00f2FVXeTOdUc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
