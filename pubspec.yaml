@@ -41,6 +41,7 @@ dependencies:
   firebase_database: ^10.2.6
   smooth_page_indicator: ^1.1.0
   google_fonts: ^4.0.3
+  google_maps_flutter: ^2.5.0
   
 
 dev_dependencies:
