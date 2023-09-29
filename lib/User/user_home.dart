@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:patienttracking/User/screens/DashBoard/user_dashboard.dart';
 
 class UserHome extends StatelessWidget {
   const UserHome({Key? key}) : super(key: key);
@@ -8,11 +10,6 @@ class UserHome extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlueAccent,
-        // shape: const RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.vertical(
-        //     bottom: Radius.circular(5),
-        //   ),
-        // ),
         title: Center(
             child: Text(
           'Welcome',
@@ -24,6 +21,7 @@ class UserHome extends StatelessWidget {
         )),
       ),
       drawer: Drawer(
+        backgroundColor: Colors.white,
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -41,23 +39,46 @@ class UserHome extends StatelessWidget {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.dashboard),
-              title: Text('Dashboard'),
-              onTap: () {
-                // Handle dashboard item click
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.account_circle),
+              leading: Icon(
+                Icons.account_circle,
+                color: Colors.grey,
+              ),
               title: Text('Profile'),
               onTap: () {
                 // Handle profile item click
               },
             ),
+            GestureDetector(
+              onTap: () {
+                // Handle dashboard item click
+                Get.to(() => UserDashboard());
+              },
+              child: ListTile(
+                leading: Icon(
+                  Icons.dashboard,
+                  color: Colors.grey,
+                ),
+                title: Text('Dashboard'),
+              ),
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.contact_emergency,
+                color: Colors.grey,
+              ),
+              title: Text('Emergency contacts'),
+              onTap: () {
+                // Handle profile item click
+              },
+            ),
+
             // Add more items as needed
             Divider(),
             ListTile(
-              leading: Icon(Icons.exit_to_app),
+              leading: Icon(
+                Icons.exit_to_app,
+                color: Colors.grey,
+              ),
               title: Text('Logout'),
               onTap: () {
                 // Handle logout item click

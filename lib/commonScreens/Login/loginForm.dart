@@ -115,6 +115,7 @@ class _LoginFormState extends State<LoginForm> {
                 //   //     controller.emailController.text.toString(),
                 //   //     controller.passwordController.text.trim());
                 // }
+
                 Get.off(() => UserHome());
               },
               child: Text("Log in".toUpperCase()),
