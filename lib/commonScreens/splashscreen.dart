@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:patienttracking/User/screens/DashBoard/user_dashboard.dart';
 import 'Login/loginScreen.dart';
 
 class SplashScreen extends StatefulWidget {

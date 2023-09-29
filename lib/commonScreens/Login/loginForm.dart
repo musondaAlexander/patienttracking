@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:patienttracking/User/user_home.dart';
 import 'package:patienttracking/commonScreens/ForgotPassword/forgotPasswordScreen.dart';
 
 // This is the Login Form Widget
@@ -107,13 +108,14 @@ class _LoginFormState extends State<LoginForm> {
                   backgroundColor: Colors.lightBlueAccent,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20))),
-              onPressed: () async {
-                // if statement will check validation then we will send input data to Login controller for validation
-                if (formkey.currentState!.validate()) {
-                  // LoginController.instance.loginUser(
-                  //     controller.emailController.text.toString(),
-                  //     controller.passwordController.text.trim());
-                }
+              onPressed: () {
+                // // if statement will check validation then we will send input data to Login controller for validation
+                // if (formkey.currentState!.validate()) {
+                //   // LoginController.instance.loginUser(
+                //   //     controller.emailController.text.toString(),
+                //   //     controller.passwordController.text.trim());
+                // }
+                Get.off(() => UserHome());
               },
               child: Text("Log in".toUpperCase()),
             ),

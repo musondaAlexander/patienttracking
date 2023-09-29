@@ -10,7 +10,6 @@ class LogingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // image: AssetImage("images/logo.png"),
     // This calculates the height of the Screen
-    double preferredHeight = MediaQuery.of(context).size.height * 0.1;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(

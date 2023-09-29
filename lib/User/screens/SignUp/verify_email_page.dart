@@ -1,13 +1,15 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:patienttracking/commonScreens/Login/loginScreen.dart';
+import 'package:patienttracking/commonScreens/nav_bar.dart';
 import 'package:patienttracking/features/Ambulance/ambulance_dashboard.dart';
 import 'package:patienttracking/features/FireFighters/firefighter_dashboard.dart';
 import 'package:patienttracking/features/Police/police_dashboard.dart';
+import 'package:patienttracking/models/appuser.dart';
 
 // This Widget will be used to verify Email of the User.
 class VerifyEmailPage extends StatefulWidget {
@@ -201,7 +203,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   onPressed: () {
                     FirebaseAuth auth = FirebaseAuth.instance;
                     auth.signOut().then((value) {
-                      SessionController().userid = '';
+                      // SessionController().userid = '';
                       Get.offAll(() => const LogingScreen());
                     });
                   },
