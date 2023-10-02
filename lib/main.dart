@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:patienttracking/commonScreens/splashscreen.dart';
 import 'package:flutter/services.dart';
