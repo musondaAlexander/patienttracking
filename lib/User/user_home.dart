@@ -1,9 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:patienttracking/User/screens/DashBoard/user_dashboard.dart';
+import 'package:location/location.dart';
 
-class UserHome extends StatelessWidget {
-  const UserHome({Key? key}) : super(key: key);
+class UserHome extends StatefulWidget {
+  @override
+  _UserHomeState createState() => _UserHomeState();
+}
+
+class _UserHomeState extends State<UserHome> {
+  GoogleMapController? _controller;
+  LocationData? _currentLocation;
+
+  @override
+  void initState() {
+    super.initState();
+    _initLocation();
+  }
+
+  void _initLocation() async {
+    final location = Location();
+    try {
+      final currentLocation = await location.getLocation();
+      setState(() {
+        _currentLocation = currentLocation;
+      });
+    } catch (e) {
+      print("Error getting location: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +112,34 @@ class UserHome extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      body: Center(
+        child: _currentLocation != null
+            ? GoogleMap(
+                onMapCreated: (controller) {
+                  setState(() {
+                    _controller = controller;
+                  });
+                },
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(
+                    _currentLocation!.latitude!,
+                    _currentLocation!.longitude!,
+                  ),
+                  zoom: 15.0,
+                ),
+                markers: {
+                  Marker(
+                    markerId: MarkerId('user_location'),
+                    position: LatLng(
+                      _currentLocation!.latitude!,
+                      _currentLocation!.longitude!,
+                    ),
+                    infoWindow: InfoWindow(title: 'Your Location'),
+                  ),
+                },
+              )
+            : CircularProgressIndicator(), // Show loading indicator while fetching location
       ),
     );
   }
