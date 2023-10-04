@@ -36,7 +36,7 @@ class _UserHomeState extends State<UserHome> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlueAccent,
-        title: Center(
+        title: const Center(
             child: Text(
           'Welcome',
           style: TextStyle(
@@ -51,7 +51,7 @@ class _UserHomeState extends State<UserHome> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            DrawerHeader(
+            const DrawerHeader(
               decoration: BoxDecoration(
                 color: Colors.lightBlueAccent,
               ),
@@ -65,11 +65,11 @@ class _UserHomeState extends State<UserHome> {
               ),
             ),
             ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.account_circle,
                 color: Colors.grey,
               ),
-              title: Text('Profile'),
+              title: const Text('Profile'),
               onTap: () {
                 // Handle profile item click
               },
@@ -77,9 +77,9 @@ class _UserHomeState extends State<UserHome> {
             GestureDetector(
               onTap: () {
                 // Handle dashboard item click
-                Get.to(() => UserDashboard());
+                Get.to(() => const UserDashboard());
               },
-              child: ListTile(
+              child: const ListTile(
                 leading: Icon(
                   Icons.dashboard,
                   color: Colors.grey,
@@ -88,24 +88,24 @@ class _UserHomeState extends State<UserHome> {
               ),
             ),
             ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.contact_emergency,
                 color: Colors.grey,
               ),
-              title: Text('Emergency contacts'),
+              title: const Text('Emergency contacts'),
               onTap: () {
                 // Handle profile item click
               },
             ),
 
             // Add more items as needed
-            Divider(),
+            const Divider(),
             ListTile(
-              leading: Icon(
+              leading: const Icon(
                 Icons.exit_to_app,
                 color: Colors.grey,
               ),
-              title: Text('Logout'),
+              title: const Text('Logout'),
               onTap: () {
                 // Handle logout item click
               },
@@ -113,52 +113,143 @@ class _UserHomeState extends State<UserHome> {
           ],
         ),
       ),
-      body: Center(
-        // todo: Add Google Map widget here
-        child: _currentLocation != null
-            ? GoogleMap(
-                onMapCreated: (controller) {
-                  setState(() {
-                    _controller = controller;
-                  });
-                },
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(
-                    _currentLocation!.latitude!,
-                    _currentLocation!.longitude!,
-                  ),
-                  zoom: 15.0,
-                ),
-                markers: {
-                  Marker(
-                    markerId: MarkerId('user_location'),
-                    position: LatLng(
-                      _currentLocation!.latitude!,
-                      _currentLocation!.longitude!,
+      body: Stack(
+        children: <Widget>[
+          Center(
+            // todo: Add Google Map widget here
+            child: _currentLocation != null
+                ? GoogleMap(
+                    onMapCreated: (controller) {
+                      setState(() {
+                        _controller = controller;
+                      });
+                    },
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(
+                        _currentLocation!.latitude!,
+                        _currentLocation!.longitude!,
+                      ),
+                      zoom: 11.0,
+                      tilt: 0,
+                      bearing: 0,
                     ),
-                    infoWindow: InfoWindow(
-                        title: 'Name: Alexander Musonda',
-                        snippet: 'Patient Type : Covid-19'),
+                    markers: {
+                      Marker(
+                        markerId: const MarkerId('user_location'),
+                        position: LatLng(
+                          _currentLocation!.latitude!,
+                          _currentLocation!.longitude!,
+                        ),
+                        infoWindow: const InfoWindow(
+                            title: 'Name: Alexander Musonda',
+                            snippet: 'Patient Type : Covid-19'),
+                      ),
+                    },
+                    mapType: MapType.normal,
+                    zoomControlsEnabled: false,
+                    zoomGesturesEnabled: true,
+                    scrollGesturesEnabled: true,
+                    myLocationButtonEnabled: false,
+                    circles: {
+                      Circle(
+                        circleId: const CircleId('currentCircle'),
+                        center: LatLng(_currentLocation!.latitude!,
+                            _currentLocation!.longitude!),
+                        radius: 1000,
+                        fillColor: Colors.blue.shade100.withOpacity(0.5),
+                        strokeColor: Colors.blue.shade100.withOpacity(0.1),
+                      ),
+                    },
+                  )
+                : const CircularProgressIndicator(
+                    strokeWidth: 2.0,
+                    valueColor: AlwaysStoppedAnimation(Colors.lightBlueAccent),
+                  ), // Show loading indicator while fetching location
+          ),
+          // Add zoom buttons
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  ClipOval(
+                    child: Material(
+                      color: Colors.blue.shade100, // button color
+                      child: InkWell(
+                        splashColor: Colors.blue, // inkwell color
+                        child: const SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: Icon(Icons.add),
+                        ),
+                        onTap: () {
+                          _controller?.animateCamera(
+                            CameraUpdate.zoomIn(),
+                          );
+                        },
+                      ),
+                    ),
                   ),
-                },
-                zoomControlsEnabled: true,
-                zoomGesturesEnabled: true,
-                scrollGesturesEnabled: true,
-                circles: {
-                  Circle(
-                    circleId: const CircleId('currentCircle'),
-                    center: LatLng(_currentLocation!.latitude!,
-                        _currentLocation!.longitude!),
-                    radius: 1000,
-                    fillColor: Colors.blue.shade100.withOpacity(0.5),
-                    strokeColor: Colors.blue.shade100.withOpacity(0.1),
+                  const SizedBox(height: 20),
+                  ClipOval(
+                    child: Material(
+                      color: Colors.blue.shade100, // button color
+                      child: InkWell(
+                        splashColor: Colors.blue, // inkwell color
+                        child: const SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: Icon(Icons.remove),
+                        ),
+                        onTap: () {
+                          _controller?.animateCamera(
+                            CameraUpdate.zoomOut(),
+                          );
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          // Add the current location button
+          SafeArea(
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10.0, bottom: 60.0),
+                child: ClipOval(
+                  child: Material(
+                    color: Colors.white, // button color
+                    child: InkWell(
+                      splashColor: Colors.lightBlue, // inkwell color
+                      child: const SizedBox(
+                        width: 56,
+                        height: 56,
+                        child: Icon(Icons.my_location),
+                      ),
+                      onTap: () {
+                        _controller?.animateCamera(
+                          CameraUpdate.newCameraPosition(
+                            CameraPosition(
+                              target: LatLng(
+                                _currentLocation!.latitude!,
+                                _currentLocation!.longitude!,
+                              ),
+                              zoom: 14.0,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                },
-              )
-            : const CircularProgressIndicator(
-                strokeWidth: 2.0,
-                valueColor: AlwaysStoppedAnimation(Colors.lightBlueAccent),
-              ), // Show loading indicator while fetching location
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
