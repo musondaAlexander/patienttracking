@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_config/flutter_config.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:patienttracking/commonScreens/splashscreen.dart';
 import 'package:flutter/services.dart';
@@ -8,8 +7,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Required by FlutterConfig
   // await FlutterConfig.loadEnvVariables();
   // await Firebase.initializeApp();
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.lightBlueAccent));
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.lightBlueAccent,
+    systemNavigationBarColor: Colors.white, // navigation bar color
+    // systemNavigationBarDividerColor: Colors.grey, //Navigation bar divider color
+    systemNavigationBarIconBrightness: Brightness.light, //navigation bar icon
+  ));
   runApp(const MyApp());
 }
 
