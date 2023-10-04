@@ -114,6 +114,7 @@ class _UserHomeState extends State<UserHome> {
         ),
       ),
       body: Center(
+        // todo: Add Google Map widget here
         child: _currentLocation != null
             ? GoogleMap(
                 onMapCreated: (controller) {
@@ -135,11 +136,29 @@ class _UserHomeState extends State<UserHome> {
                       _currentLocation!.latitude!,
                       _currentLocation!.longitude!,
                     ),
-                    infoWindow: InfoWindow(title: 'Your Location'),
+                    infoWindow: InfoWindow(
+                        title: 'Name: Alexander Musonda',
+                        snippet: 'Patient Type : Covid-19'),
+                  ),
+                },
+                zoomControlsEnabled: true,
+                zoomGesturesEnabled: true,
+                scrollGesturesEnabled: true,
+                circles: {
+                  Circle(
+                    circleId: const CircleId('currentCircle'),
+                    center: LatLng(_currentLocation!.latitude!,
+                        _currentLocation!.longitude!),
+                    radius: 1000,
+                    fillColor: Colors.blue.shade100.withOpacity(0.5),
+                    strokeColor: Colors.blue.shade100.withOpacity(0.1),
                   ),
                 },
               )
-            : CircularProgressIndicator(), // Show loading indicator while fetching location
+            : const CircularProgressIndicator(
+                strokeWidth: 2.0,
+                valueColor: AlwaysStoppedAnimation(Colors.lightBlueAccent),
+              ), // Show loading indicator while fetching location
       ),
     );
   }
