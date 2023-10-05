@@ -31,8 +31,12 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
             TextFormField(
               // controller: controller.fullName,
               validator: (value) {
+                bool _isNameValid = RegExp(r'^[a-zA-Z ]+$').hasMatch(value!);
                 if (value == null || value.trim().isEmpty) {
                   return 'This field is required';
+                }
+                if (!_isNameValid) {
+                  return 'Name must be valid and contain only alphabets';
                 }
                 if (value.trim().length < 2) {
                   return 'Name must be valid';
