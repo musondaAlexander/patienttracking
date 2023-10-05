@@ -8,6 +8,16 @@ import 'package:patienttracking/User/screens/DashBoard/user_dashboard.dart';
 import 'package:patienttracking/commonScreens/Login/loginScreen.dart';
 
 class AuthController extends GetxController {
+  // controllers for signup
+  final email = TextEditingController();
+  final password = TextEditingController();
+  final fullName = TextEditingController();
+  final phoneNo = TextEditingController();
+
+  // controllers for loogin in
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   //Need to instantiate the controller
   static AuthController instance = Get.find();
   DatabaseReference ref = FirebaseDatabase.instance.ref('Users');

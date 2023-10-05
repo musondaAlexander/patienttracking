@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:patienttracking/User/controllers/authentication_controller.dart';
 
 class SignupFormWidget extends StatefulWidget {
   const SignupFormWidget({super.key});
@@ -17,6 +21,16 @@ enum UserType { User, Police, FireFighter, Ambulance }
 var userType = UserType.User;
 
 class _SignupFormWidgetState extends State<SignupFormWidget> {
+  final controller = Get.put(AuthController());
+  @override
+  void dispose() {
+    controller.fullName.dispose();
+    controller.email.dispose();
+    controller.password.dispose();
+    controller.phoneNo.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _formkey = GlobalKey<FormState>();
@@ -29,7 +43,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
-              // controller: controller.fullName,
+              controller: controller.fullName,
               validator: (value) {
                 bool _isNameValid = RegExp(r'^[a-zA-Z ]+$').hasMatch(value!);
                 if (value == null || value.trim().isEmpty) {
@@ -54,7 +68,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
             ),
             const SizedBox(height: 30 - 20),
             TextFormField(
-              // controller: controller.email,
+              controller: controller.email,
               validator: (value) {
                 bool _isEmailValid = RegExp(
                         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -74,7 +88,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
             ),
             const SizedBox(height: 30 - 20),
             TextFormField(
-              // controller: controller.phoneNo,
+              controller: controller.phoneNo,
               validator: (value) {
                 bool _isEmailValid =
                     RegExp(r'^(?:[+0][1-9])?[0-9]{8,15}$').hasMatch(value!);
@@ -93,7 +107,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
             ),
             const SizedBox(height: 30 - 20),
             TextFormField(
-              // controller: controller.password,
+              controller: controller.password,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
                   return 'This field is required';
@@ -255,38 +269,38 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
                                                   Colors.lightBlueAccent,
                                             ),
                                             onPressed: (() {
-                                              //   if (isChecked == false) {
-                                              //     //USED PACKAGE TO GENERATE THIS TOAST
-                                              //     Get.snackbar("Error",
-                                              //         "Please agree to the terms and conditions",
-                                              //         snackPosition:
-                                              //             SnackPosition.BOTTOM,
-                                              //         backgroundColor: Colors.red,
-                                              //         colorText: Colors.white,
-                                              //         duration: const Duration(
-                                              //             seconds: 3));
-                                              //   } else {
-                                              //     Navigator.of(context)
-                                              //         .pop(AlertDialog);
-                                              //     if (_formkey.currentState!
-                                              //         .validate()) {
-                                              //       SignUpController.instance
-                                              //           .signUp(
-                                              //         controller.fullName.text
-                                              //             .trim(),
-                                              //         controller.email.text
-                                              //             .trim(),
-                                              //         controller.password.text
-                                              //             .trim(),
-                                              //         controller.phoneNo.text
-                                              //             .trim(),
-                                              //         userType
-                                              //             .toString()
-                                              //             .split('.')
-                                              //             .last,
-                                              //       );
-                                              //     }
-                                              //   }
+                                              if (isChecked == false) {
+                                                //USED PACKAGE TO GENERATE THIS TOAST
+                                                Get.snackbar("Error",
+                                                    "Please agree to the terms and conditions",
+                                                    snackPosition:
+                                                        SnackPosition.BOTTOM,
+                                                    backgroundColor: Colors.red,
+                                                    colorText: Colors.white,
+                                                    duration: const Duration(
+                                                        seconds: 3));
+                                              } else {
+                                                Navigator.of(context)
+                                                    .pop(AlertDialog);
+                                                if (_formkey.currentState!
+                                                    .validate()) {
+                                                  AuthController.instance
+                                                      .signUp(
+                                                    controller.fullName.text
+                                                        .trim(),
+                                                    controller.email.text
+                                                        .trim(),
+                                                    controller.password.text
+                                                        .trim(),
+                                                    controller.phoneNo.text
+                                                        .trim(),
+                                                    userType
+                                                        .toString()
+                                                        .split('.')
+                                                        .last,
+                                                  );
+                                                }
+                                              }
                                             }),
                                             child: const Text(
                                               "Continue",
