@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:patienttracking/User/controllers/session_controller.dart';
 import 'package:patienttracking/User/screens/DashBoard/user_dashboard.dart';
+import 'package:patienttracking/User/user_home.dart';
 import 'package:patienttracking/commonScreens/Login/loginScreen.dart';
 
 class AuthController extends GetxController {
@@ -39,7 +40,7 @@ class AuthController extends GetxController {
     if (user == null) {
       Get.offAll(() => const LogingScreen());
     } else {
-      Get.offAll(() => const UserDashboard());
+      Get.offAll(() => UserHome());
       // Get.offAll(() => Home(email:user.email!));
     }
   }
