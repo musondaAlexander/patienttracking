@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:patienttracking/User/controllers/authentication_controller.dart';
 import 'package:patienttracking/User/screens/DashBoard/user_dashboard.dart';
 import 'package:location/location.dart';
 
@@ -107,7 +108,7 @@ class _UserHomeState extends State<UserHome> {
               ),
               title: const Text('Logout'),
               onTap: () {
-                // Handle logout item click
+                AuthController.instance.logout();
               },
             ),
           ],
