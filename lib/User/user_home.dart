@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:patienttracking/User/controllers/authentication_controller.dart';
 import 'package:patienttracking/User/screens/DashBoard/user_dashboard.dart';
 import 'package:location/location.dart';
+import 'package:patienttracking/commonScreens/Location/share_location.dart';
 
 class UserHome extends StatefulWidget {
   @override
@@ -97,6 +98,18 @@ class _UserHomeState extends State<UserHome> {
               onTap: () {
                 // Handle profile item click
               },
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.to(const ShareMyLocation());
+              },
+              child: const ListTile(
+                leading: Icon(
+                  Icons.location_on,
+                  color: Colors.grey,
+                ),
+                title: Text('Share Live Location'),
+              ),
             ),
 
             // Add more items as needed
