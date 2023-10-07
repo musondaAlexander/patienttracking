@@ -78,9 +78,91 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
           ),
         ),
       ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(250, 50),
+                elevation: 15,
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.lightBlueAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+              ),
+              onPressed: () {
+                _getLocation();
+              },
+              child: const Text(
+                'Add my location',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(250, 50),
+                elevation: 15,
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.lightBlueAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+              ),
+              onPressed: () {
+                _listenLocation();
+              },
+              child: const Text(
+                'Enable live location',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                elevation: 15,
+                minimumSize: const Size(250, 50),
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.lightBlueAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+              ),
+              onPressed: () {
+                _stopListening();
+              },
+              child: const Text(
+                'Stop live location',
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   // method to request permission for location
   void _requestPermission() {}
+  // method to get location
+  void _getLocation() {}
+  // Method to Stop listening on location
+  void _stopListening() {}
+  // Method to Listen on location
+  void _listenLocation() {}
 }
