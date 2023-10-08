@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyLocationMap extends StatefulWidget {
-  const MyLocationMap({super.key});
+  final String userId;
+  const MyLocationMap(this.userId);
 
   @override
   State<MyLocationMap> createState() => _MyLocationMapState();
