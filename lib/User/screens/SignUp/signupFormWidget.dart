@@ -79,7 +79,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
                 return null;
               },
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.email_outlined),
+                prefixIcon: const Icon(Icons.email_outlined),
                 labelText: "Email",
                 hintText: "Email",
                 border:
@@ -98,7 +98,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
                 return null;
               },
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.phone),
+                prefixIcon: const Icon(Icons.phone),
                 labelText: "Phone Number",
                 hintText: "Phone Number",
                 border:

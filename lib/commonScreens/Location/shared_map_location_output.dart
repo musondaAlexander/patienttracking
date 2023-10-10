@@ -51,10 +51,10 @@ class _MyLocationMapState extends State<MyLocationMap> {
                 return Center(child: CircularProgressIndicator());
               }
               return GoogleMap(
-                zoomControlsEnabled: false,
-                zoomGesturesEnabled: true,
+                // zoomControlsEnabled: false,
+                // zoomGesturesEnabled: true,
                 scrollGesturesEnabled: true,
-                myLocationButtonEnabled: false,
+                myLocationButtonEnabled: true,
                 mapType: MapType.normal,
                 markers: {
                   Marker(
