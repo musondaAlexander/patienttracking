@@ -46,6 +46,7 @@ dependencies:
   flutter_config: ^2.0.2
   permission_handler: ^10.3.0
   cloud_firestore: ^4.9.3
+  csc_picker: ^0.2.7
   
 
 dev_dependencies:

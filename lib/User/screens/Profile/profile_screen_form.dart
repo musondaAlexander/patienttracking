@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:patienttracking/User/controllers/session_controller.dart';
+import 'package:csc_picker/csc_picker.dart';
 
 class ProfileFormWidget extends StatefulWidget {
   const ProfileFormWidget({
@@ -15,6 +16,16 @@ class ProfileFormWidget extends StatefulWidget {
 
 class _ProfileFormWidgetState extends State<ProfileFormWidget> {
   DatabaseReference ref = FirebaseDatabase.instance.ref('Users');
+  //  contollers for the input fields
+  final userAddressController = TextEditingController();
+  final userDiseaseController = TextEditingController();
+  final userCityController = TextEditingController();
+  final userCountryController = TextEditingController();
+
+  // variables
+  String countryValue = "";
+  String cityValue = "";
+  String address = "";
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +125,40 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                             borderRadius: BorderRadius.circular(20)),
                       ),
                     ),
+                    const SizedBox(height: 30 - 20),
+                    TextFormField(
+                      controller: userDiseaseController,
+                      // initialValue: map['email'],
+                      // enableInteractiveSelection: false,
+                      // focusNode: new AlwaysDisabledFocusNode(),
+
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.sick),
+                        labelText: "Disease",
+                        hintText: "Enter Disease",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                      ),
+                    ),
+                    const SizedBox(height: 30 - 20),
+                    TextFormField(
+                      controller: userAddressController,
+                      // initialValue: map['email'],
+                      // enableInteractiveSelection: false,
+                      // focusNode: new AlwaysDisabledFocusNode(),
+
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.add_home_rounded),
+                        labelText: "Address",
+                        hintText: "Home Adrress",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                      ),
+                    ),
+
+                    const SizedBox(height: 30 - 20),
+                    //  Drop Down list for Country and City
+
                     const SizedBox(height: 30 - 20),
                     SizedBox(
                       width: double.infinity,
