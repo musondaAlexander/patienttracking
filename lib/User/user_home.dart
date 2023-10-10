@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:patienttracking/User/controllers/authentication_controller.dart';
 import 'package:patienttracking/User/screens/DashBoard/user_dashboard.dart';
 import 'package:location/location.dart';
+import 'package:patienttracking/User/screens/Profile/profile_screen.dart';
 import 'package:patienttracking/commonScreens/Location/share_location.dart';
 
 class UserHome extends StatefulWidget {
@@ -73,13 +74,22 @@ class _UserHomeState extends State<UserHome> {
               ),
               title: const Text('Profile'),
               onTap: () {
+                Get.to(
+                  const ProfileScreen(),
+                  transition: Transition.rightToLeft,
+                  duration: const Duration(milliseconds: 200),
+                );
                 // Handle profile item click
               },
             ),
             GestureDetector(
               onTap: () {
                 // Handle dashboard item click
-                Get.to(() => const UserDashboard());
+                Get.to(
+                  () => const UserDashboard(),
+                  transition: Transition.rightToLeft,
+                  duration: const Duration(milliseconds: 300),
+                );
               },
               child: const ListTile(
                 leading: Icon(
@@ -101,7 +111,11 @@ class _UserHomeState extends State<UserHome> {
             ),
             GestureDetector(
               onTap: () {
-                Get.to(const ShareMyLocation());
+                Get.to(
+                  const ShareMyLocation(),
+                  transition: Transition.rightToLeft,
+                  duration: const Duration(milliseconds: 300),
+                );
               },
               child: const ListTile(
                 leading: Icon(

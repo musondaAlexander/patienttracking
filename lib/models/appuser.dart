@@ -8,8 +8,8 @@ class AppUser {
   late String id;
   String? imageUrl;
   String? address;
+  String? disease;
   String? city;
-  String? state;
   String? country;
   String? zipCode;
   String? latitude;
@@ -22,9 +22,9 @@ class AppUser {
     required this.userType,
     required this.id,
     this.imageUrl,
+    this.disease,
     this.address,
     this.city,
-    this.state,
     this.country,
     this.zipCode,
     this.latitude,

@@ -31,54 +31,22 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.lightBlueAccent,
         leading: GestureDetector(
           onTap: () => {Get.to(() => UserHome())},
-          child: const BackButton(
+          child: BackButton(
             color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.lightBlueAccent,
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(30),
+        title: Center(
+            child: Text(
+          'Live location',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
           ),
-        ),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(Get.height * 0.1),
-          child: Container(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image(
-                        image:
-                            const AssetImage("assets/logos/logoiconwhite.png"),
-                        height: Get.height * 0.1),
-                  ],
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 8),
-                  child: const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Live location",
-                        style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
+        )),
       ),
       body: Center(
         child: Column(
@@ -204,7 +172,10 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
                             //         snapshot.data!.docs[index].id)));
 
                             Get.to(
-                                MyLocationMap(snapshot.data!.docs[index].id));
+                              MyLocationMap(snapshot.data!.docs[index].id),
+                              transition: Transition.rightToLeft,
+                              duration: const Duration(milliseconds: 300),
+                            );
                           },
                         ),
                       );
