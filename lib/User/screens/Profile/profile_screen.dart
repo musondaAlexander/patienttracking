@@ -30,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Get.offAll(() => const LogingScreen());
           });
         },
-        child: const Icon(Icons.logout_outlined),
+        child: const Icon(Icons.person),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       extendBodyBehindAppBar: false,
