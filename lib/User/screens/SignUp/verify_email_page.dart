@@ -6,9 +6,9 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:patienttracking/commonScreens/Login/loginScreen.dart';
 import 'package:patienttracking/commonScreens/nav_bar.dart';
-import 'package:patienttracking/features/Ambulance/ambulance_dashboard.dart';
-import 'package:patienttracking/features/FireFighters/firefighter_dashboard.dart';
-import 'package:patienttracking/features/Police/police_dashboard.dart';
+import 'package:patienttracking/Features/Ambulance/ambulance_dashboard.dart';
+import 'package:patienttracking/Features/FireFighters/firefighter_dashboard.dart';
+import 'package:patienttracking/Features/Police/police_dashboard.dart';
 import 'package:patienttracking/models/appuser.dart';
 
 // This Widget will be used to verify Email of the User.

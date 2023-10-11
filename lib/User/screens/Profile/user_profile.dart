@@ -10,6 +10,20 @@ class USerprofile extends StatefulWidget {
 class _USerprofileState extends State<USerprofile> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: Colors.lightBlueAccent,
+        title: const Center(
+            child: Text(
+          'Profile',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        )),
+      ),
+    );
   }
 }

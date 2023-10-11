@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:patienttracking/User/screens/DashBoard/grid_dash.dart';
@@ -63,11 +62,11 @@ class UserDashboard extends StatelessWidget {
         backgroundColor: Colors.lightBlueAccent,
         leading: GestureDetector(
           onTap: () => {Get.to(() => UserHome())},
-          child: BackButton(
+          child: const BackButton(
             color: Colors.white,
           ),
         ),
-        title: Center(
+        title: const Center(
             child: Text(
           'Dashboard',
           style: TextStyle(

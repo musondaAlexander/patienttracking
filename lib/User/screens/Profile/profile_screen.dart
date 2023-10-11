@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:patienttracking/User/screens/Profile/profile_screen_form.dart';
+import 'package:patienttracking/User/screens/Profile/user_profile.dart';
 import 'package:patienttracking/User/user_home.dart';
-import 'package:patienttracking/commonScreens/Login/loginScreen.dart';
-import '../../controllers/session_controller.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -23,12 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         shape: const StadiumBorder(
             side: BorderSide(color: Colors.white24, width: 4)),
         onPressed: () {
-          FirebaseAuth auth = FirebaseAuth.instance;
-
-          auth.signOut().then((value) {
-            SessionController().userid = '';
-            Get.offAll(() => const LogingScreen());
-          });
+          Get.to(const USerprofile());
         },
         child: const Icon(Icons.person),
       ),
@@ -37,14 +30,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         backgroundColor: Colors.lightBlueAccent,
         leading: GestureDetector(
-          onTap: () => {Get.to(() => UserHome())},
+          onTap: () => {Get.to(UserHome())},
           child: const BackButton(
             color: Colors.white,
           ),
         ),
         title: const Center(
             child: Text(
-          'Profile',
+          'Update Profile',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,

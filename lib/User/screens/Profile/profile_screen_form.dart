@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_csc_picker/flutter_csc_picker.dart';
 import 'package:get/get.dart';
+import 'package:patienttracking/Features/EmergencyContacts/add_contact.dart';
 import 'package:patienttracking/User/controllers/session_controller.dart';
 
 class ProfileFormWidget extends StatefulWidget {
@@ -237,10 +238,10 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20))),
                         onPressed: () {
-                          // Get.to(() => const add_contact(),
-                          //     transition: Transition.rightToLeft,
-                          //     duration: const Duration(seconds: 1),
-                          //     arguments: userEmail);
+                          Get.to(() => const add_contact(),
+                              transition: Transition.rightToLeft,
+                              duration: const Duration(milliseconds: 500),
+                              arguments: userEmail);
                         },
                         child: Text("Emergency Contacts".toUpperCase()),
                       ),
