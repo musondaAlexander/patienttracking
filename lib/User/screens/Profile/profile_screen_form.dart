@@ -1,9 +1,13 @@
+import 'dart:ui';
+
+import 'package:csc_picker/csc_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_csc_picker/flutter_csc_picker.dart';
 import 'package:get/get.dart';
 import 'package:patienttracking/User/controllers/session_controller.dart';
-import 'package:csc_picker/csc_picker.dart';
 
 class ProfileFormWidget extends StatefulWidget {
   const ProfileFormWidget({
@@ -17,14 +21,15 @@ class ProfileFormWidget extends StatefulWidget {
 class _ProfileFormWidgetState extends State<ProfileFormWidget> {
   DatabaseReference ref = FirebaseDatabase.instance.ref('Users');
   //  contollers for the input fields
-  final userAddressController = TextEditingController();
-  final userDiseaseController = TextEditingController();
-  final userCityController = TextEditingController();
-  final userCountryController = TextEditingController();
+  TextEditingController userAddressController = TextEditingController();
+  TextEditingController userDiseaseController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController countryController = TextEditingController();
 
   // variables
-  String countryValue = "";
-  String cityValue = "";
+  dynamic countryValue;
+  dynamic stateValue;
+  dynamic cityValue;
   String address = "";
 
   @override
@@ -150,13 +155,45 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.add_home_rounded),
                         labelText: "Address",
-                        hintText: "Home Adrress",
+                        hintText: "Home Address",
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20)),
                       ),
                     ),
 
                     const SizedBox(height: 30 - 20),
+                    TextFormField(
+                      controller: userAddressController,
+                      // initialValue: map['email'],
+                      // enableInteractiveSelection: false,
+                      // focusNode: new AlwaysDisabledFocusNode(),
+
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(CupertinoIcons.placemark),
+                        labelText: "Province ",
+                        hintText: "Enter province e.g Copperbelt",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                      ),
+                    ),
+
+                    const SizedBox(height: 30 - 20),
+                    TextFormField(
+                      selectionHeightStyle: BoxHeightStyle.tight,
+
+                      controller: userAddressController,
+                      // initialValue: map['email'],
+                      // enableInteractiveSelection: false,
+                      // focusNode: new AlwaysDisabledFocusNode(),
+
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(CupertinoIcons.placemark_fill),
+                        labelText: "City",
+                        hintText: "Enter City e.g Ndola",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                      ),
+                    ),
                     //  Drop Down list for Country and City
 
                     const SizedBox(height: 30 - 20),
