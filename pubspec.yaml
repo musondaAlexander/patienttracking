@@ -50,6 +50,9 @@ dependencies:
   csc_picker: ^0.2.7
   shared_preferences: ^2.2.2
   geolocator: ^10.1.0
+  url_launcher: ^6.1.14
+  background_sms: ^0.0.4
+  geocoding: ^2.1.1
   
 
 dev_dependencies:
