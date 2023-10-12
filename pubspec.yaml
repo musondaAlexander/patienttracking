@@ -49,6 +49,7 @@ dependencies:
   flutter_csc_picker: ^0.0.2
   csc_picker: ^0.2.7
   shared_preferences: ^2.2.2
+  geolocator: ^10.1.0
   
 
 dev_dependencies:
