@@ -21,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         shape: const StadiumBorder(
             side: BorderSide(color: Colors.white24, width: 4)),
         onPressed: () {
-          Get.to(const USerprofile());
+          Get.to(SMSSending());
         },
         child: const Icon(Icons.person),
       ),

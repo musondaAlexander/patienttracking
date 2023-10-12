@@ -107,6 +107,16 @@ class _ContactListScreenState extends State<ContactListScreen> {
               title: const Text('Contact 5'),
               subtitle: Text(_contact5 ?? ''),
             ),
+            const SizedBox(height: 10),
+            ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              tileColor: Colors.lightBlueAccent,
+              style: ListTileStyle.drawer,
+              title: const Text('Contact 6'),
+              subtitle: const Text("Send SMS"),
+            ),
           ],
         ),
       ),

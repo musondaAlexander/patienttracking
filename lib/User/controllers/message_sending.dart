@@ -10,6 +10,25 @@ import 'package:patienttracking/Features/EmergencyContacts/emergency_contact_con
 import 'package:permission_handler/permission_handler.dart';
 
 class messageController extends GetxController {
+  _getPermission() async => await [
+        Permission.sms,
+      ].request();
+
+  Future<bool> _isPermissionGranted() async =>
+      await Permission.sms.status.isGranted;
+
+  _sendMessage(String phoneNumber, String message, {int? simSlot}) async {
+    var result = await BackgroundSms.sendMessage(
+        phoneNumber: phoneNumber, message: message, simSlot: simSlot);
+    if (result == SmsStatus.sent) {
+      print("Sent");
+    } else {
+      print("Failed");
+    }
+  }
+
+  Future<bool?> get _supportCustomSim async =>
+      await BackgroundSms.isSupportCustomSim;
   static messageController get instance => Get.find();
   final emergencyContactsController = Get.put(EmergencyContactsController());
 
@@ -137,11 +156,15 @@ class messageController extends GetxController {
         // Get.snackbar("Location",
         //     "$_currentPosition.latitude, $_currentPosition.longitude ");
         String message =
-            "HELP me! There is an $EmergencyType \n http://www.google.com/maps/place/${_currentPosition!.latitude},${_currentPosition!.longitude}}";
-        await emergencyContactsController
-            .loadData()
-            .then((emergencyContacts) => _sendSMS(message, emergencyContacts));
-      } else {}
+            "HELP me! There is a $EmergencyType \n https://www.google.com/maps/place/?=${_currentPosition!.latitude}?=${_currentPosition!.longitude}";
+        if (await _isPermissionGranted()) {
+          if ((await _supportCustomSim)!) {
+            _sendMessage("0777846270", message, simSlot: 1);
+          } else
+            _sendMessage("0966851088", "Hello");
+        } else
+          _getPermission();
+      }
     });
 
     // Get.snackbar("Location", "Location not found");
