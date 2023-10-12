@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:patienttracking/commonScreens/Location/shared_map_location_output.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -21,47 +22,17 @@ class _PoliceOptionsState extends State<PoliceOptions> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.lightBlueAccent,
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(40),
+        title: const Center(
+            child: Text(
+          'Police Options',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
           ),
-        ),
-        bottom: PreferredSize(
-            preferredSize: Size.fromHeight(Get.height * 0.13),
-            child: Container(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image(
-                          image: const AssetImage(
-                              "assets/logos/emergencyAppLogo.png"),
-                          height: Get.height * 0.1),
-                    ],
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "Police Options",
-                          style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            )),
+        )),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -119,6 +90,23 @@ class _PoliceOptionsState extends State<PoliceOptions> {
                     Radius.circular(15.0),
                   ),
                 ),
+                tileColor: const Color.fromARGB(255, 103, 172, 232),
+                leading: const Icon(Icons.local_police),
+                title: const Text('See Active Police Officers'),
+                subtitle:
+                    const Text('Find the nearest police officers on the map'),
+                onTap: () {
+                  // Get.to(MyLocationMap());
+                },
+              ),
+            ),
+            Card(
+              child: ListTile(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(15.0),
+                  ),
+                ),
                 tileColor: Colors.blue.shade600,
                 leading: const Icon(Icons.call),
                 title: const Text('Call'),
@@ -127,7 +115,7 @@ class _PoliceOptionsState extends State<PoliceOptions> {
                 onTap: () async {
                   if (await Permission.phone.request().isGranted) {
                     debugPrint("In making phone call");
-                    var url = Uri.parse("tel:15");
+                    var url = Uri.parse("tel:991");
                     await launchUrl(url);
                     debugPrint("Location Permission is granted");
                   } else {

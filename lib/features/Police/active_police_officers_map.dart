@@ -7,9 +7,7 @@ import 'package:patienttracking/commonScreens/Location/share_location.dart';
 
 class MyLocationMap extends StatefulWidget {
   final String userId;
-  const MyLocationMap(
-    this.userId,
-  );
+  const MyLocationMap(this.userId);
 
   @override
   State<MyLocationMap> createState() => _MyLocationMapState();
