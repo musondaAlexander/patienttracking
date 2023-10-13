@@ -53,6 +53,7 @@ dependencies:
   url_launcher: ^6.1.14
   background_sms: ^0.0.4
   geocoding: ^2.1.1
+  flutter_session_manager: ^1.0.3
   
   
 

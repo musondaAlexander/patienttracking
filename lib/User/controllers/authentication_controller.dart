@@ -2,9 +2,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:get/get.dart';
 import 'package:patienttracking/User/controllers/session_controller.dart';
-import 'package:patienttracking/User/screens/DashBoard/user_dashboard.dart';
+import 'package:patienttracking/User/controllers/user_id_session.dart';
 import 'package:patienttracking/User/user_home.dart';
 import 'package:patienttracking/commonScreens/Login/loginScreen.dart';
 
@@ -14,6 +15,9 @@ class AuthController extends GetxController {
   final password = TextEditingController();
   final fullName = TextEditingController();
   final phoneNo = TextEditingController();
+
+  UserIDSession userIDSession = UserIDSession();
+  var sessionManager = SessionManager();
 
   // controllers for loogin in
   final emailController = TextEditingController();
@@ -88,9 +92,14 @@ class AuthController extends GetxController {
     try {
       await auth
           .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) {
-        SessionController().userid = value.user!.uid
-            .toString(); // Here we are setting the user id in the session controller
+          .then((value) async {
+        SessionController().userid = value.user!.uid.toString();
+
+        await sessionManager.set("userID", value.user!.uid.toString());
+        print("User ID: ${value.user!.uid.toString()}");
+        String id = await SessionManager().get("userID");
+        print(id);
+        // Here we are setting the user id in the session controller
         Get.snackbar("Success", "Login Successfully:)");
       }).onError((error, stackTrace) {
         if (error == null) {

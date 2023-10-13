@@ -77,7 +77,7 @@ class _UserHomeState extends State<UserHome> {
               title: const Text('Profile'),
               onTap: () {
                 Get.to(
-                  const ProfileScreen(),
+                  () => const ProfileScreen(),
                   transition: Transition.rightToLeft,
                   duration: const Duration(milliseconds: 200),
                 );

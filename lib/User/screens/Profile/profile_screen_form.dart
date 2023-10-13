@@ -25,7 +25,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
   TextEditingController userAddressController = TextEditingController();
   TextEditingController userDiseaseController = TextEditingController();
   TextEditingController cityController = TextEditingController();
-  TextEditingController countryController = TextEditingController();
+  TextEditingController provinceController = TextEditingController();
 
   // variables
   dynamic countryValue;
@@ -99,6 +99,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                         if (!_isEmailValid) {
                           return 'Invalid phone number';
                         }
+                        return null;
                         // return null;
                       },
                       decoration: InputDecoration(
@@ -164,7 +165,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
 
                     const SizedBox(height: 30 - 20),
                     TextFormField(
-                      controller: userAddressController,
+                      controller: provinceController,
                       // initialValue: map['email'],
                       // enableInteractiveSelection: false,
                       // focusNode: new AlwaysDisabledFocusNode(),
@@ -182,7 +183,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                     TextFormField(
                       selectionHeightStyle: BoxHeightStyle.tight,
 
-                      controller: userAddressController,
+                      controller: cityController,
                       // initialValue: map['email'],
                       // enableInteractiveSelection: false,
                       // focusNode: new AlwaysDisabledFocusNode(),
@@ -214,8 +215,13 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                           // );
 
                           if ((_formkey.currentState)!.validate()) {
-                            updateprofile(nameController.text.trim(),
-                                phoneController.text.trim());
+                            updateprofile(
+                                nameController.text.trim(),
+                                phoneController.text.trim(),
+                                userAddressController.text.trim(),
+                                userDiseaseController.text.trim(),
+                                cityController.text.trim(),
+                                provinceController.text.trim());
 
                             Get.snackbar("Save", "Profile Updated",
                                 snackPosition: SnackPosition.BOTTOM,
@@ -240,7 +246,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
                         onPressed: () {
                           Get.to(() => const add_contact(),
                               transition: Transition.rightToLeft,
-                              duration: const Duration(milliseconds: 500),
+                              duration: const Duration(seconds: 1),
                               arguments: userEmail);
                         },
                         child: Text("Emergency Contacts".toUpperCase()),
@@ -265,11 +271,17 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
   }
 
   // this function to update user profile
-  void updateprofile(String name, String phone) {
+  void updateprofile(String name, String phone, String address, String disease,
+      String city, String province) {
     ref.child(SessionController().userid.toString()).update({
       'UserName': name,
       'Phone': phone,
+      'Address': address,
+      'Disease': disease,
+      'City': city,
+      'Province': province,
     });
+    print(SessionController().userid);
   }
 }
 
