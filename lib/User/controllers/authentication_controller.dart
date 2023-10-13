@@ -95,10 +95,13 @@ class AuthController extends GetxController {
           .then((value) async {
         SessionController().userid = value.user!.uid.toString();
 
-        await sessionManager.set("userID", value.user!.uid.toString());
-        print("User ID: ${value.user!.uid.toString()}");
-        String id = await SessionManager().get("userID");
-        print(id);
+        userIDSession.saveUserID("userID", value.user!.uid.toString());
+
+        String id = userIDSession.getUserID();
+        // await sessionManager.set("userID", value.user!.uid.toString());
+        // print("User ID: ${value.user!.uid.toString()}");
+        // String id = await SessionManager().get("userID");
+        print("UID: ${id} ");
         // Here we are setting the user id in the session controller
         Get.snackbar("Success", "Login Successfully:)");
       }).onError((error, stackTrace) {

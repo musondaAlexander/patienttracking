@@ -1,14 +1,14 @@
 import 'dart:ui';
 
-import 'package:csc_picker/csc_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_csc_picker/flutter_csc_picker.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:get/get.dart';
 import 'package:patienttracking/Features/EmergencyContacts/add_contact.dart';
 import 'package:patienttracking/User/controllers/session_controller.dart';
+import 'package:patienttracking/User/controllers/user_id_session.dart';
 
 class ProfileFormWidget extends StatefulWidget {
   const ProfileFormWidget({
@@ -26,6 +26,9 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
   TextEditingController userDiseaseController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController provinceController = TextEditingController();
+
+  // variable for sessionManager
+  var sessionManager = SessionManager();
 
   // variables
   dynamic countryValue;
@@ -273,7 +276,11 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
   // this function to update user profile
   void updateprofile(String name, String phone, String address, String disease,
       String city, String province) {
-    ref.child(SessionController().userid.toString()).update({
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    User user = _auth.currentUser!;
+    UserIDSession userIDSession = UserIDSession();
+    userIDSession.saveUserID("userID", user.uid);
+    ref.child(user.uid).update({
       'UserName': name,
       'Phone': phone,
       'Address': address,
