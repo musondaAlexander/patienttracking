@@ -1,9 +1,14 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:location/location.dart' as loc;
+import 'package:patienttracking/User/screens/DashBoard/grid_dash.dart';
 import 'package:patienttracking/User/user_home.dart';
 import 'package:patienttracking/commonScreens/Location/shared_map_location_output.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -18,6 +23,11 @@ class ShareMyLocation extends StatefulWidget {
 class _ShareMyLocationState extends State<ShareMyLocation> {
   final loc.Location location = loc.Location();
   StreamSubscription<loc.LocationData>? _locationSubscription;
+
+  // Three variables to hold the user Data from the location
+  double? latitude;
+  double? longitude;
+  String? userEmail;
 
   @override
   void initState() {
@@ -172,43 +182,77 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
                           AlwaysStoppedAnimation(Colors.lightBlueAccent),
                     ),
                   );
+                } else if (snapshot.hasData) {
+                  // set the Three variables to hold the user Data from the location
+                  List<QueryDocumentSnapshot<Object?>> iterable =
+                      snapshot.data!.docs;
+                  iterable.forEach((element) {
+                    latitude = element['latitude'];
+                    longitude = element['longitude'];
+                    userEmail = element['userEmail'];
+                  });
                 }
 
-                return ListView.builder(
-                    itemCount: snapshot.data?.docs.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(
-                          snapshot.data!.docs[index]['name'].toString(),
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        subtitle: Row(
-                          children: [
-                            Text(snapshot.data!.docs[index]['latitude']
-                                .toString()),
-                            const SizedBox(
-                              width: 20,
-                            ),
-                            Text(snapshot.data!.docs[index]['longitude']
-                                .toString()),
-                          ],
-                        ),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.directions),
-                          onPressed: () {
-                            // Navigator.of(context).push(MaterialPageRoute(
-                            //     builder: (context) => MyLocationMap(
-                            //         snapshot.data!.docs[index].id)));
+                //     itemCount: snapshot.data?.docs.length,
+                //     itemBuilder: (context, index) {
+                //       return ListTile(
+                //         title: Text(
+                //           snapshot.data!.docs[index]['userEmail'].toString(),
+                //           style: const TextStyle(
+                //             fontSize: 20,
+                //             fontWeight: FontWeight.w700,
+                //           ),
+                //         ),
+                //         subtitle: Row(
+                //           children: [
+                //             Text(snapshot.data!.docs[index]['latitude']
+                //                 .toString()),
+                //             const SizedBox(
+                //               width: 20,
+                //             ),
+                //             Text(snapshot.data!.docs[index]['longitude']
+                //                 .toString()),
+                //           ],
+                //         ),
+                //         trailing: IconButton(
+                //           icon: const Icon(Icons.directions),
+                //           onPressed: () {
+                //             // Navigator.of(context).push(MaterialPageRoute(
+                //             //     builder: (context) => MyLocationMap(
+                //             //         snapshot.data!.docs[index].id)));
 
-                            Get.to(
-                                MyLocationMap(snapshot.data!.docs[index].id));
-                          },
-                        ),
-                      );
-                    });
+                //             Get.to(
+                //                 MyLocationMap(snapshot.data!.docs[index].id));
+                //           },
+                //         ),
+                //       );
+                //     });
+
+                return Column(
+                  children: [
+                    Text(
+                      userEmail.toString(),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      latitude.toString(),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      longitude.toString(),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                );
               },
             )),
           ],
@@ -231,12 +275,24 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
 
   // method to get location
   _getLocation() async {
+    final ref =
+        FirebaseDatabase.instance.ref(); //used to reference the firebase RTDB
+    final snapshot = await ref.child('Users').get();
+    // assign the value of the snapshot to a variable
+
+    print(snapshot.value);
+
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    User user = _auth.currentUser!;
     try {
       final loc.LocationData _locationResult = await location.getLocation();
-      await FirebaseFirestore.instance.collection('location').doc('user1').set({
+      await FirebaseFirestore.instance
+          .collection('location')
+          .doc(user.uid)
+          .set({
         'latitude': _locationResult.latitude,
         'longitude': _locationResult.longitude,
-        'name': 'Alexander'
+        'userEmail': user.email,
       }, SetOptions(merge: true));
     } catch (e) {
       print(e);
@@ -245,6 +301,8 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
 
   // Method to Listen on location
   Future<void> _listenLocation() async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    User user = _auth.currentUser!;
     _locationSubscription = location.onLocationChanged.handleError((onError) {
       print(onError);
       _locationSubscription?.cancel();
@@ -252,10 +310,13 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
         _locationSubscription = null;
       });
     }).listen((loc.LocationData currentlocation) async {
-      await FirebaseFirestore.instance.collection('location').doc('user1').set({
+      await FirebaseFirestore.instance
+          .collection('location')
+          .doc(user.uid)
+          .set({
         'latitude': currentlocation.latitude,
         'longitude': currentlocation.longitude,
-        'name': 'Alexander'
+        'userEmail': user.email,
       }, SetOptions(merge: true));
     });
   }

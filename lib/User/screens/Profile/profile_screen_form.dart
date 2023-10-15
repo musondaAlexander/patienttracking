@@ -280,6 +280,7 @@ class _ProfileFormWidgetState extends State<ProfileFormWidget> {
     User user = _auth.currentUser!;
     UserIDSession userIDSession = UserIDSession();
     userIDSession.saveUserID("userID", user.uid);
+
     ref.child(user.uid).update({
       'UserName': name,
       'Phone': phone,
