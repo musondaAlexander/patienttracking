@@ -21,6 +21,7 @@ class ShareMyLocation extends StatefulWidget {
 }
 
 class _ShareMyLocationState extends State<ShareMyLocation> {
+  DatabaseReference ref = FirebaseDatabase.instance.ref('Location');
   final loc.Location location = loc.Location();
   StreamSubscription<loc.LocationData>? _locationSubscription;
 
@@ -28,11 +29,14 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
   double? latitude;
   double? longitude;
   String? userEmail;
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
+  late User userID;
   @override
   void initState() {
     super.initState();
     _requestPermission();
+    userID = _auth.currentUser!;
     // location.changeSettings(interval: 300, accuracy: loc.LocationAccuracy.high);
     // location.enableBackgroundMode(enable: true);
   }
@@ -108,7 +112,8 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
                 ),
               ),
               onPressed: () {
-                _getLocation();
+                _getLocationrRD();
+                // _getLocation();
               },
               child: const Text(
                 'Add my location',
@@ -132,7 +137,8 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
                 ),
               ),
               onPressed: () {
-                _listenLocation();
+                // _listenLocation();
+                _listenLocationRD();
               },
               child: const Text(
                 'Enable live location',
@@ -171,9 +177,9 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
             ),
             Expanded(
                 child: StreamBuilder(
-              stream:
-                  FirebaseFirestore.instance.collection('location').snapshots(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              stream: ref.child(userID.uid).onValue,
+              // FirebaseFirestore.instance.collection('location').snapshots(),
+              builder: (context, AsyncSnapshot snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
                     child: CircularProgressIndicator(
@@ -184,13 +190,11 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
                   );
                 } else if (snapshot.hasData) {
                   // set the Three variables to hold the user Data from the location
-                  List<QueryDocumentSnapshot<Object?>> iterable =
-                      snapshot.data!.docs;
-                  iterable.forEach((element) {
-                    latitude = element['latitude'];
-                    longitude = element['longitude'];
-                    userEmail = element['userEmail'];
-                  });
+                  Map<dynamic, dynamic> map =
+                      snapshot.data.snapshot.value ?? {};
+                  latitude = map['latitude'];
+                  longitude = map['longitude'];
+                  userEmail = map['userEmail'];
                 }
 
                 //     itemCount: snapshot.data?.docs.length,
@@ -299,6 +303,24 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
     }
   }
 
+// Another method that stores location to the database but uses RTDB
+
+  _getLocationrRD() async {
+    DatabaseReference ref = FirebaseDatabase.instance.ref('Location');
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    User user = _auth.currentUser!;
+    try {
+      final loc.LocationData _locationResult = await location.getLocation();
+      await ref.child(user.uid).set({
+        'latitude': _locationResult.latitude,
+        'longitude': _locationResult.longitude,
+        'userEmail': user.email,
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   // Method to Listen on location
   Future<void> _listenLocation() async {
     FirebaseAuth _auth = FirebaseAuth.instance;
@@ -318,6 +340,26 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
         'longitude': currentlocation.longitude,
         'userEmail': user.email,
       }, SetOptions(merge: true));
+    });
+  }
+
+// Method to Listen on location but users RTDB
+  _listenLocationRD() {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    User user = _auth.currentUser!;
+    _locationSubscription = location.onLocationChanged.handleError((onError) {
+      print(onError);
+      _locationSubscription?.cancel();
+      setState(() {
+        _locationSubscription = null;
+      });
+    }).listen((loc.LocationData currentlocation) async {
+      DatabaseReference ref = FirebaseDatabase.instance.ref('Location');
+      await ref.child(user.uid).set({
+        'latitude': currentlocation.latitude,
+        'longitude': currentlocation.longitude,
+        'userEmail': user.email,
+      });
     });
   }
 
