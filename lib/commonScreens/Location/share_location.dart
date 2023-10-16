@@ -232,33 +232,83 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
                 //       );
                 //     });
 
-                return Column(
-                  children: [
-                    Text(
-                      userEmail.toString(),
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
+                //         return Column(
+                //           children: [
+                //             Text(
+                //               userEmail.toString(),
+                //               style: const TextStyle(
+                //                 fontSize: 20,
+                //                 fontWeight: FontWeight.w700,
+                //               ),
+                //             ),
+                //             Text(
+                //               latitude.toString(),
+                //               style: const TextStyle(
+                //                 fontSize: 20,
+                //                 fontWeight: FontWeight.w700,
+                //               ),
+                //             ),
+                //             Text(
+                //               longitude.toString(),
+                //               style: const TextStyle(
+                //                 fontSize: 20,
+                //                 fontWeight: FontWeight.w700,
+                //               ),
+                //             ),
+                //           ],
+                //         );
+                //       },
+                //     )),
+                //   ],
+                // ),
+
+                return Card(
+                  // add some style
+                  elevation: 10,
+                  borderOnForeground: true,
+                  color: Colors.white,
+                  margin: EdgeInsets.all(16.0),
+                  child: Column(
+                    children: <Widget>[
+                      ListTile(
+                        leading: Icon(Icons.location_on, color: Colors.blue),
+                        title: Text('Location:'),
+                        subtitle: Text(
+                            'Latitude:\t\t $latitude, \nLongitude:\t $longitude'),
                       ),
-                    ),
-                    Text(
-                      latitude.toString(),
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
+                      ListTile(
+                        leading: Icon(Icons.email, color: Colors.blue),
+                        title: Text('Email:'),
+                        subtitle: Text("$userEmail"),
                       ),
-                    ),
-                    Text(
-                      longitude.toString(),
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 15,
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.lightBlueAccent,
+                        ),
+                        onPressed: () {
+                          Get.to(
+                            () => MyLocationMap(userID.uid),
+                            transition: Transition.rightToLeft,
+                            duration: const Duration(milliseconds: 200),
+                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => MyLocationMap(
+                          //             userID.uid,
+                          //           )),
+                          // );
+                        },
+                        child: const Text('Go To Map'),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               },
-            )),
+            ))
           ],
         ),
       ),
