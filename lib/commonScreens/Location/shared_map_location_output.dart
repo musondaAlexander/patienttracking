@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
@@ -16,7 +20,25 @@ class MyLocationMap extends StatefulWidget {
 }
 
 class _MyLocationMapState extends State<MyLocationMap> {
+  DatabaseReference ref = FirebaseDatabase.instance.ref('Location');
   final loc.Location location = loc.Location();
+  StreamSubscription<loc.LocationData>? _locationSubscription;
+
+  // Three variables to hold the user Data from the location
+  late double latitude = 0.0;
+  late double longitude = 0.0;
+  String? userEmail;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  late User userID;
+
+  @override
+  void initState() {
+    super.initState();
+    userID = _auth.currentUser!;
+    // location.changeSettings(interval: 300, accuracy: loc.LocationAccuracy.high);
+    // location.enableBackgroundMode(enable: true);
+  }
+
   late GoogleMapController _controller;
   bool _added = false;
   @override
@@ -43,11 +65,13 @@ class _MyLocationMapState extends State<MyLocationMap> {
       body: Stack(
         children: <Widget>[
           StreamBuilder(
-            stream:
-                FirebaseFirestore.instance.collection('location').snapshots(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            stream: ref.child(userID.uid).onValue,
+            builder: (context, AsyncSnapshot snapshot) {
               if (_added) {
-                mymap(snapshot);
+                mymap(context, snapshot);
+                Map<dynamic, dynamic> map = snapshot.data.snapshot.value ?? {};
+                latitude = map['latitude'];
+                longitude = map['longitude'];
               }
               if (!snapshot.hasData) {
                 return Center(child: CircularProgressIndicator());
@@ -61,10 +85,11 @@ class _MyLocationMapState extends State<MyLocationMap> {
                 markers: {
                   Marker(
                       position: LatLng(
-                        snapshot.data!.docs.singleWhere((element) =>
-                            element.id == widget.userId)['latitude'],
-                        snapshot.data!.docs.singleWhere((element) =>
-                            element.id == widget.userId)['longitude'],
+                        latitude, longitude,
+                        // snapshot.data!.docs.singleWhere((element) =>
+                        //     element.id == widget.userId)['latitude'],
+                        // snapshot.data!.docs.singleWhere((element) =>
+                        //     element.id == widget.userId)['longitude'],
                       ),
                       markerId: const MarkerId('id'),
                       icon: BitmapDescriptor.defaultMarkerWithHue(
@@ -72,10 +97,11 @@ class _MyLocationMapState extends State<MyLocationMap> {
                 },
                 initialCameraPosition: CameraPosition(
                     target: LatLng(
-                      snapshot.data!.docs.singleWhere(
-                          (element) => element.id == widget.userId)['latitude'],
-                      snapshot.data!.docs.singleWhere((element) =>
-                          element.id == widget.userId)['longitude'],
+                      latitude, longitude,
+                      // snapshot.data!.docs.singleWhere(
+                      //     (element) => element.id == widget.userId)['latitude'],
+                      // snapshot.data!.docs.singleWhere((element) =>
+                      //     element.id == widget.userId)['longitude'],
                     ),
                     zoom: 14.47),
                 onMapCreated: (GoogleMapController controller) async {
@@ -92,14 +118,25 @@ class _MyLocationMapState extends State<MyLocationMap> {
     );
   }
 
-  Future<void> mymap(AsyncSnapshot<QuerySnapshot> snapshot) async {
+  Future<void> mymap(context, AsyncSnapshot snapshot) async {
+    if (!snapshot.hasData) {
+      latitude = 0.0;
+      longitude = 0.0;
+    } else if (snapshot.hasData) {
+      // set the Three variables to hold the user Data from the location
+      Map<dynamic, dynamic> map = snapshot.data.snapshot.value ?? {};
+      latitude = map['latitude'];
+      longitude = map['longitude'];
+    }
     await _controller
         .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
             target: LatLng(
-              snapshot.data!.docs.singleWhere(
-                  (element) => element.id == widget.userId)['latitude'],
-              snapshot.data!.docs.singleWhere(
-                  (element) => element.id == widget.userId)['longitude'],
+              latitude!, longitude!,
+              // plot using the latitude and longitude from the RTDB database
+              // snapshot.data!.docs.singleWhere(
+              //     (element) => element.id == widget.userId)['latitude'],
+              // snapshot.data!.docs.singleWhere(
+              //     (element) => element.id == widget.userId)['longitude'],
             ),
             zoom: 14.47)));
   }

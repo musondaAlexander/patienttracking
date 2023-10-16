@@ -85,7 +85,7 @@ class _LoginFormState extends State<LoginForm> {
                           _isObscure = !_isObscure;
                         });
                       }),
-                  prefixIcon: const Icon(Icons.fingerprint),
+                  prefixIcon: const Icon(Icons.lock_outlined),
                   labelText: "Password",
                   hintText: "Password",
                   border: OutlineInputBorder(

@@ -119,7 +119,7 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
                 return null;
               },
               decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.fingerprint),
+                prefixIcon: const Icon(Icons.lock_outlined),
                 labelText: "Password",
                 hintText: "Password",
                 border:

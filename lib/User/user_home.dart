@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -17,10 +19,15 @@ class _UserHomeState extends State<UserHome> {
   GoogleMapController? _controller;
   LocationData? _currentLocation;
 
+  DatabaseReference ref = FirebaseDatabase.instance.ref('Users');
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  late User userID;
+
   @override
   void initState() {
     super.initState();
     _initLocation();
+    userID = _auth.currentUser!;
   }
 
   void _initLocation() async {
@@ -37,6 +44,8 @@ class _UserHomeState extends State<UserHome> {
 
   @override
   Widget build(BuildContext context) {
+    String userName = "";
+    String disease = "";
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
@@ -153,49 +162,65 @@ class _UserHomeState extends State<UserHome> {
           Center(
             // todo: Add Google Map widget here
             child: _currentLocation != null
-                ? GoogleMap(
-                    onMapCreated: (controller) {
-                      setState(() {
-                        _controller = controller;
-                      });
-                    },
-                    initialCameraPosition: CameraPosition(
-                      target: LatLng(
-                        _currentLocation!.latitude!,
-                        _currentLocation!.longitude!,
-                      ),
-                      zoom: 11.0,
-                      tilt: 0,
-                      bearing: 0,
-                    ),
-                    markers: {
-                      Marker(
-                        markerId: const MarkerId('user_location'),
-                        position: LatLng(
-                          _currentLocation!.latitude!,
-                          _currentLocation!.longitude!,
+                ? StreamBuilder(
+                    stream: ref.child(userID.uid).onValue,
+                    builder: (context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        Map<dynamic, dynamic> map =
+                            snapshot.data.snapshot.value ?? {};
+                        if (map['UserName'] == null) {
+                          map['UserName'] = 'No Name Set';
+                        }
+                        if (map['Disease'] == null) {
+                          map['Disease'] = 'No Disease Set';
+                        }
+                        userName = map['UserName'];
+                        disease = map['Disease'];
+                      }
+                      return GoogleMap(
+                        onMapCreated: (controller) {
+                          setState(() {
+                            _controller = controller;
+                          });
+                        },
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(
+                            _currentLocation!.latitude!,
+                            _currentLocation!.longitude!,
+                          ),
+                          zoom: 11.0,
+                          tilt: 0,
+                          bearing: 0,
                         ),
-                        infoWindow: const InfoWindow(
-                            title: 'Name: Alexander Musonda',
-                            snippet: 'Patient Type : Covid-19'),
-                      ),
-                    },
-                    mapType: MapType.normal,
-                    zoomControlsEnabled: false,
-                    zoomGesturesEnabled: true,
-                    scrollGesturesEnabled: true,
-                    myLocationButtonEnabled: false,
-                    circles: {
-                      Circle(
-                        circleId: const CircleId('currentCircle'),
-                        center: LatLng(_currentLocation!.latitude!,
-                            _currentLocation!.longitude!),
-                        radius: 1000,
-                        fillColor: Colors.blue.shade100.withOpacity(0.5),
-                        strokeColor: Colors.blue.shade100.withOpacity(0.1),
-                      ),
-                    },
-                  )
+                        markers: {
+                          Marker(
+                            markerId: const MarkerId('user_location'),
+                            position: LatLng(
+                              _currentLocation!.latitude!,
+                              _currentLocation!.longitude!,
+                            ),
+                            infoWindow: InfoWindow(
+                                title: "Name: $userName",
+                                snippet: "Patient Type : $disease"),
+                          ),
+                        },
+                        mapType: MapType.normal,
+                        zoomControlsEnabled: false,
+                        zoomGesturesEnabled: true,
+                        scrollGesturesEnabled: true,
+                        myLocationButtonEnabled: false,
+                        circles: {
+                          Circle(
+                            circleId: const CircleId('currentCircle'),
+                            center: LatLng(_currentLocation!.latitude!,
+                                _currentLocation!.longitude!),
+                            radius: 1000,
+                            fillColor: Colors.blue.shade100.withOpacity(0.5),
+                            strokeColor: Colors.blue.shade100.withOpacity(0.1),
+                          ),
+                        },
+                      );
+                    })
                 : const CircularProgressIndicator(
                     strokeWidth: 2.0,
                     valueColor: AlwaysStoppedAnimation(Colors.lightBlueAccent),
