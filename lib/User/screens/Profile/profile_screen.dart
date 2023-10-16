@@ -35,15 +35,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             color: Colors.white,
           ),
         ),
-        title: const Center(
-            child: Text(
+        title: const Text(
           'Update Profile',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
-        )),
+        ),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Container(

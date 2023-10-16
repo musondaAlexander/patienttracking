@@ -66,15 +66,15 @@ class UserDashboard extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        title: const Center(
-            child: Text(
+        title: const Text(
           'Dashboard',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
-        )),
+        ),
+        centerTitle: true,
       ),
       body: Container(
         margin: EdgeInsets.only(top: Get.height * 0.1),

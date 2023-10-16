@@ -39,17 +39,18 @@ class _UserHomeState extends State<UserHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 100,
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.lightBlueAccent,
-        title: const Center(
-            child: Text(
+        title: const Text(
           'Welcome',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
-        )),
+        ),
+        centerTitle: true,
       ),
       drawer: Drawer(
         backgroundColor: Colors.white,

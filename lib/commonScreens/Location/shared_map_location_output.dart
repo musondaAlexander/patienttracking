@@ -30,15 +30,15 @@ class _MyLocationMapState extends State<MyLocationMap> {
           ),
         ),
         backgroundColor: Colors.lightBlueAccent,
-        title: const Center(
-            child: Text(
+        title: const Text(
           'Live Tracking',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
-        )),
+        ),
+        centerTitle: true,
       ),
       body: Stack(
         children: <Widget>[
