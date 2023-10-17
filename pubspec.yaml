@@ -54,6 +54,8 @@ dependencies:
   background_sms: ^0.0.4
   geocoding: ^2.1.1
   flutter_session_manager: ^1.0.3
+  sliding_switch: ^1.1.0
+  zego_uikit_prebuilt_live_streaming: ^2.21.3
   
   
 

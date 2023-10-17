@@ -108,7 +108,7 @@ class _UserHomeState extends State<UserHome> {
                   Icons.dashboard,
                   color: Colors.grey,
                 ),
-                title: Text('Dashboard'),
+                title: Text('First Responders'),
               ),
             ),
             ListTile(
