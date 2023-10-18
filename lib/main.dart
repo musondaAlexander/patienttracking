@@ -7,7 +7,7 @@ import 'package:patienttracking/User/controllers/authentication_controller.dart'
 import 'package:patienttracking/commonScreens/splashscreen.dart';
 import 'package:flutter/services.dart';
 
-Future main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Required by FlutterConfig
   // await FlutterConfig.loadEnvVariables();
   // await Firebase.initializeApp();
