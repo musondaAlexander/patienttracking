@@ -7,6 +7,7 @@ import 'package:patienttracking/Features/EmergencyContacts/emergency_contact.dar
 import 'package:patienttracking/User/controllers/authentication_controller.dart';
 import 'package:patienttracking/User/screens/DashBoard/user_dashboard.dart';
 import 'package:location/location.dart';
+import 'package:patienttracking/User/screens/LiveStream/sos.dart';
 import 'package:patienttracking/User/screens/Profile/profile_screen.dart';
 import 'package:patienttracking/commonScreens/Location/share_location.dart';
 
@@ -125,6 +126,7 @@ class _UserHomeState extends State<UserHome> {
                 );
               },
             ),
+            const Divider(),
             GestureDetector(
               onTap: () {
                 Get.to(
@@ -139,6 +141,22 @@ class _UserHomeState extends State<UserHome> {
                   color: Colors.grey,
                 ),
                 title: Text('Share Live Location'),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Get.to(
+                  const SOS(),
+                  transition: Transition.rightToLeft,
+                  duration: const Duration(milliseconds: 300),
+                );
+              },
+              child: const ListTile(
+                leading: Icon(
+                  Icons.video_call,
+                  color: Colors.grey,
+                ),
+                title: Text('Go Live With Video'),
               ),
             ),
 

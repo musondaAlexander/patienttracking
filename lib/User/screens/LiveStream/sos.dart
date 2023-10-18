@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:zego_uikit_prebuilt_live_streaming/zego_uikit_prebuilt_live_streaming.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:patienttracking/User/screens/LiveStream/live_sreem.dart';
 
 class SOS extends StatefulWidget {
   const SOS({super.key});
@@ -11,7 +13,7 @@ class SOS extends StatefulWidget {
 }
 
 class _SOSState extends State<SOS> {
-  final lveIdController = TextEditingController();
+  final liveIdController = TextEditingController();
   final String userId = Random().nextInt(900000 + 10000).toString();
 
   @override
@@ -32,7 +34,7 @@ class _SOSState extends State<SOS> {
                 height: 20,
               ),
               TextField(
-                controller: lveIdController,
+                controller: liveIdController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Joing OR start Live Meeting by Inputing ID',
@@ -52,8 +54,33 @@ class _SOSState extends State<SOS> {
                   //     ),
                   //   ),
                   // );
+                  Get.to(() => LiveStreemVew(
+                      roomId: liveIdController.text.toString(),
+                      userId: userId,
+                      isHost: true));
                 },
-                child: Text("Join Live Meeting"),
+                child: Text("Start Live"),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => ZegoLivePage(
+                  //       userId: userId,
+                  //       roomId: lveIdController.text,
+                  //     ),
+                  //   ),
+                  // );
+                  Get.to(() => LiveStreemVew(
+                      roomId: liveIdController.text.toString(),
+                      userId: userId,
+                      isHost: false));
+                },
+                child: Text("Join Live"),
               ),
             ],
           )),
