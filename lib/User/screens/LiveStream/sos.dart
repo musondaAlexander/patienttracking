@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:patienttracking/Features/Police/police_dashboard.dart';
 import 'package:patienttracking/User/screens/LiveStream/live_sreem.dart';
 
 class SOS extends StatefulWidget {
@@ -100,6 +101,36 @@ class _SOSState extends State<SOS> {
                       isHost: false));
                 },
                 child: const Text("Join Live"),
+              ),
+              // ============================================================
+              // This is the SOS Button
+              // It uses the Cureent user ID as the roomId For the Live Stream
+              // ============================================================
+
+              SizedBox(
+                width: Get.width * 0.8,
+                height: Get.height * 0.2,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                  ),
+                  onPressed: () async {
+                    Get.to(
+                      () => LiveStreemVew(
+                          roomId: user!.uid.toString(),
+                          userId: userId,
+                          isHost: true),
+                    );
+                  },
+                  child: const Text("SOS",
+                      style: TextStyle(
+                        fontSize: 40,
+                        color: Colors.white,
+                      )),
+                ),
               ),
             ],
           )),
