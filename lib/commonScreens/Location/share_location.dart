@@ -1,14 +1,11 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:location/location.dart' as loc;
-import 'package:patienttracking/User/screens/DashBoard/grid_dash.dart';
 import 'package:patienttracking/User/user_home.dart';
 import 'package:patienttracking/commonScreens/Location/shared_map_location_output.dart';
 import 'package:permission_handler/permission_handler.dart';
