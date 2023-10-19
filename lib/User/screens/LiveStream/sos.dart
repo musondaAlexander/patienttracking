@@ -19,6 +19,20 @@ class _SOSState extends State<SOS> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 100,
+        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: Colors.lightBlueAccent,
+        title: const Text(
+          'Start Live Stream',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24),
           child: Column(
