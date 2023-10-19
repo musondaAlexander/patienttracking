@@ -1,8 +1,11 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:patienttracking/User/screens/LiveStream/live_sreem.dart';
 
 class SOS extends StatefulWidget {
@@ -34,31 +37,33 @@ class _SOSState extends State<SOS> {
         centerTitle: true,
       ),
       body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
                 "Your User ID: $userId",
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               TextField(
                 controller: liveIdController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Joing OR start Live Meeting by Inputing ID',
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
                 onPressed: () {
+                  //This Function saves SOS Current user and Location Informaation o the database.
+                  saveCurrentLocation();
                   // Navigator.push(
                   //   context,
                   //   MaterialPageRoute(
@@ -73,9 +78,9 @@ class _SOSState extends State<SOS> {
                       userId: userId,
                       isHost: true));
                 },
-                child: Text("Start Live"),
+                child: const Text("Start Live"),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               ElevatedButton(
@@ -94,10 +99,38 @@ class _SOSState extends State<SOS> {
                       userId: userId,
                       isHost: false));
                 },
-                child: Text("Join Live"),
+                child: const Text("Join Live"),
               ),
             ],
           )),
     );
+  }
+
+  // Function tp store the SOS data in the database
+
+  saveCurrentLocation() async {
+    //adding in try catch
+    //save Current location to database
+    // String videoId = sessionController.userid.toString();
+    final user = FirebaseAuth.instance.currentUser;
+    final ref = FirebaseDatabase.instance.ref("sos/${user!.uid.toString()}");
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((position) async {
+      await placemarkFromCoordinates(position.latitude, position.longitude)
+          .then((List<Placemark> placemarks) {
+        Placemark place = placemarks[0];
+        String address =
+            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+        ref.set({
+          "time":
+              "${DateTime.now().hour}:${DateTime.now().minute} ${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+          "address": address,
+          "email": user.email.toString(),
+          "lat": position.latitude.toString(),
+          "long": position.longitude.toString(),
+          "videoId": user.uid.toString(),
+        });
+      });
+    });
   }
 }
