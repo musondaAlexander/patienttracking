@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:patienttracking/Features/EmergencyContacts/emergency_contact.dart';
+import 'package:patienttracking/User/DangerZones/danger_zones.dart';
 import 'package:patienttracking/User/controllers/authentication_controller.dart';
 import 'package:patienttracking/User/screens/DashBoard/user_dashboard.dart';
 import 'package:location/location.dart';
@@ -161,6 +162,23 @@ class _UserHomeState extends State<UserHome> {
             ),
 
             // Add more items as needed
+            const Divider(),
+            GestureDetector(
+              onTap: () {
+                Get.to(
+                  const DangerZones(),
+                  transition: Transition.rightToLeft,
+                  duration: const Duration(milliseconds: 300),
+                );
+              },
+              child: const ListTile(
+                leading: Icon(
+                  Icons.dangerous,
+                  color: Colors.grey,
+                ),
+                title: Text('Danger Zones'),
+              ),
+            ),
             const Divider(),
             ListTile(
               leading: const Icon(
