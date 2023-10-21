@@ -27,12 +27,12 @@ class SignUpScreen extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 8),
               child: Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 30,
                   ),
                   Center(
                     child: SizedBox.fromSize(
-                      size: Size(36, 36),
+                      size: const Size(36, 36),
                       child: ClipOval(
                         child: Material(
                           color: Colors.lightBlueAccent,
@@ -41,7 +41,7 @@ class SignUpScreen extends StatelessWidget {
                             onTap: () {
                               Get.to(() => const LogingScreen());
                             },
-                            child: Column(
+                            child: const Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Icon(
@@ -56,7 +56,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 80,
                   ),
                   Column(
@@ -68,9 +68,9 @@ class SignUpScreen extends StatelessWidget {
                           height: Get.height * 0.1),
                       Container(
                         margin: const EdgeInsets.only(top: 8),
-                        child: Column(
+                        child: const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               "Sign Up",
                               style: TextStyle(
@@ -90,8 +90,8 @@ class SignUpScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(30),
-          child: Column(
-            children: const [
+          child: const Column(
+            children: [
               SignupFormWidget(),
               FooterWidget(Texts: "Already have Account ", Title: "Login")
             ],

@@ -142,9 +142,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                     children: [
                       Container(
                         margin: const EdgeInsets.only(top: 8),
-                        child: Column(
+                        child: const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               "Verify Email",
                               style: TextStyle(
