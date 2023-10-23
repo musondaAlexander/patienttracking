@@ -73,7 +73,7 @@ class _MyLocationMapState extends State<MyLocationMap> {
                 longitude = map['longitude'];
               }
               if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
               return GoogleMap(
                 // zoomControlsEnabled: false,
