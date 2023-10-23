@@ -48,7 +48,7 @@ class _MyLocationMapState extends State<MyLocationMap> {
                 mymap(snapshot);
               }
               if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
               return GoogleMap(
                 // zoomControlsEnabled: false,
@@ -89,7 +89,6 @@ class _MyLocationMapState extends State<MyLocationMap> {
       ),
     );
   }
-
   Future<void> mymap(AsyncSnapshot<QuerySnapshot> snapshot) async {
     await _controller
         .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(

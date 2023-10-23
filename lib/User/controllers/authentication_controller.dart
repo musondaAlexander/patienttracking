@@ -43,7 +43,8 @@ class AuthController extends GetxController {
   _initialScreen(User? user) {
     if (user == null) {
       Get.offAll(() => const LogingScreen());
-    } else {
+    } 
+    else {
       Get.offAll(() => UserHome());
       // Get.offAll(() => Home(email:user.email!));
     }
@@ -151,7 +152,6 @@ class AuthController extends GetxController {
       Get.snackbar("Error", error.toString());
     }
   }
-
 //  Logout Method
   void logout() async {
     await auth.signOut();
