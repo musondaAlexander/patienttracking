@@ -22,14 +22,14 @@ var userType = UserType.User;
 
 class _SignupFormWidgetState extends State<SignupFormWidget> {
   final controller = Get.put(AuthController());
-  @override
-  void dispose() {
-    controller.fullName.dispose();
-    controller.email.dispose();
-    controller.password.dispose();
-    controller.phoneNo.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   controller.fullName.dispose();
+  //   controller.email.dispose();
+  //   controller.password.dispose();
+  //   controller.phoneNo.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

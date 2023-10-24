@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:patienttracking/User/controllers/authentication_controller.dart';
 import 'package:patienttracking/User/controllers/message_sending.dart';
 import 'package:patienttracking/User/screens/Profile/profile_screen.dart';
 // import 'package:public_emergency_app/Features/User/Screens/LiveStreaming/sos_page.dart';
@@ -76,7 +77,8 @@ class _PoliceDashboardState extends State<PoliceDashboard> {
         shape: const StadiumBorder(
             side: BorderSide(color: Colors.white24, width: 4)),
         onPressed: () {
-          Get.to(() => const ProfileScreen());
+          // Get.to(() => const ProfileScreen());
+         AuthController.instance.logout();
         },
         child: Icon(Icons.person),
       ),

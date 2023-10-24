@@ -34,11 +34,11 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
         backgroundColor: Colors.lightBlueAccent,
         leading: GestureDetector(
           onTap: () => {Get.to(() => UserHome())},
-          child: BackButton(
+          child: const BackButton(
             color: Colors.white,
           ),
         ),
-        title: Center(
+        title: const Center(
             child: Text(
           'Live location',
           style: TextStyle(

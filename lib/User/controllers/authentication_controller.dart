@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:get/get.dart';
+import 'package:patienttracking/Features/Police/police_dashboard.dart';
 import 'package:patienttracking/User/controllers/session_controller.dart';
 import 'package:patienttracking/User/controllers/user_id_session.dart';
 import 'package:patienttracking/User/user_home.dart';
@@ -11,10 +12,10 @@ import 'package:patienttracking/commonScreens/Login/loginScreen.dart';
 
 class AuthController extends GetxController {
   // controllers for signup
-  final email = TextEditingController();
-  final password = TextEditingController();
-  final fullName = TextEditingController();
-  final phoneNo = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController  fullName = TextEditingController();
+ TextEditingController phoneNo = TextEditingController();
 
   UserIDSession userIDSession = UserIDSession();
   var sessionManager = SessionManager();
@@ -45,8 +46,9 @@ class AuthController extends GetxController {
       Get.offAll(() => const LogingScreen());
     } 
     else {
-      Get.offAll(() => UserHome());
-      // Get.offAll(() => Home(email:user.email!));
+      handleUsers();
+      // Get.offAll(() => UserHome());
+      // // Get.offAll(() => Home(email:user.email!));
     }
   }
 
@@ -68,6 +70,7 @@ class AuthController extends GetxController {
           'Phone': Phone,
           'UserType': Usertype,
         });
+        // Get.offAll(()=>const LogingScreen());
         Get.snackbar("Success", "Sign Up Successfully");
       }).onError((error, stackTrace) {
         if (error.toString().contains("email-already-in-use")) {
@@ -155,5 +158,28 @@ class AuthController extends GetxController {
 //  Logout Method
   void logout() async {
     await auth.signOut();
+  }
+// ====================================================================
+// ====================================================================
+  // function to determine which page to show based on User Type
+  void handleUsers() async {
+    final user = FirebaseAuth.instance.currentUser;
+    final ref2 = FirebaseDatabase.instance.ref();
+    final snapshot =  await ref2.child("Users/${user?.uid.toString()}/UserType").get();
+    print("User Type: ${snapshot.value}");
+    // let us now check the type of user we have retrerived from the database
+    if (snapshot.value == "User") {
+      Get.to(() => UserHome());
+    } else if (snapshot.value == "Police") {
+      Get.to(() => const PoliceDashboard());
+    } else if (snapshot.value == "Ambulance") {
+      Get.offAll(() => UserHome());
+    } else if (snapshot.value == "Fire Brigade") {
+      Get.offAll(() => UserHome());
+    } else if (snapshot.value == "Admin") {
+      Get.offAll(() => UserHome());
+    } else {
+      Get.offAll(() => UserHome());
+    }
   }
 }

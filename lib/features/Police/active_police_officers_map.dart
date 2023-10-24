@@ -98,6 +98,6 @@ class _MyLocationMapState extends State<MyLocationMap> {
               snapshot.data!.docs.singleWhere(
                   (element) => element.id == widget.userId)['longitude'],
             ),
-            zoom: 14.47)));
+            zoom: 14.47),),);
   }
 }
