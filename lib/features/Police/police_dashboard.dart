@@ -4,9 +4,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:patienttracking/Features/EmergencyContacts/emergency_contact.dart';
 import 'package:patienttracking/User/controllers/authentication_controller.dart';
 import 'package:patienttracking/User/controllers/message_sending.dart';
+import 'package:patienttracking/User/screens/LiveStream/sos.dart';
 import 'package:patienttracking/User/screens/Profile/profile_screen.dart';
+import 'package:patienttracking/commonScreens/Location/share_location.dart';
 // import 'package:public_emergency_app/Features/User/Screens/LiveStreaming/sos_page.dart';
 // import 'package:public_emergency_app/Features/User/Screens/Profile/profile_screen.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -80,17 +83,18 @@ class _PoliceDashboardState extends State<PoliceDashboard> {
           // Get.to(() => const ProfileScreen());
          AuthController.instance.logout();
         },
-        child: Icon(Icons.person),
+        child: const Icon(Icons.logout),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       extendBodyBehindAppBar: false,
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.lightBlueAccent,
         centerTitle: true,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(40),
+            bottom: Radius.circular(10),
           ),
         ),
         bottom: PreferredSize(
@@ -99,15 +103,6 @@ class _PoliceDashboardState extends State<PoliceDashboard> {
             padding: const EdgeInsets.only(bottom: 15),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image(
-                        image: const AssetImage(
-                            "assets/logos/emergencyAppLogo.png"),
-                        height: Get.height * 0.08),
-                  ],
-                ),
                 Container(
                   margin: const EdgeInsets.only(top: 8),
                   child: const Column(
@@ -170,6 +165,103 @@ class _PoliceDashboardState extends State<PoliceDashboard> {
             ),
           ),
         ),
+      ),
+      drawer: Drawer(
+         backgroundColor: Colors.white,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children:   <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.lightBlueAccent,
+              ),
+              child: Text(
+                'Police Menu',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+           GestureDetector(
+              onTap: () {
+                Get.to(
+                  const ShareMyLocation(),
+                  transition: Transition.rightToLeft,
+                  duration: const Duration(milliseconds: 300),
+                );
+              },
+              child: const ListTile(
+                leading: Icon(
+                  Icons.location_on,
+                  color: Colors.grey,
+                ),
+                title: Text('Share Live Location'),
+              ),
+            ),
+             GestureDetector(
+              onTap: () {
+                Get.to(
+                  const ShareMyLocation(),
+                  transition: Transition.rightToLeft,
+                  duration: const Duration(milliseconds: 300),
+                );
+              },
+              child: const ListTile(
+                leading: Icon(
+                  Icons.directions,
+                  color: Colors.grey,
+                ),
+                title: Text('See Active Patients On Map'),
+              ),
+            ),
+             GestureDetector(
+              onTap: () {
+                Get.to(
+                  const SOS(),
+                  transition: Transition.rightToLeft,
+                  duration: const Duration(milliseconds: 300),
+                );
+              },
+              child: const ListTile(
+                leading: Icon(
+                  Icons.video_call,
+                  color: Colors.grey,
+                ),
+                title: Text('Join Live With Video'),
+              ),
+            ),
+          const Divider(),
+            GestureDetector(
+              onTap: () {
+                // Get.to(
+                //   // const DangerZones(),
+                //   transition: Transition.rightToLeft,
+                //   duration: const Duration(milliseconds: 300),
+                // );
+              },
+              child: const ListTile(
+                leading: Icon(
+                  Icons.dangerous,
+                  color: Colors.grey,
+                ),
+                title: Text('Set Danger Zones'),
+              ),
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(
+                Icons.exit_to_app,
+                color: Colors.grey,
+              ),
+              title: const Text('Logout'),
+              onTap: () {
+                AuthController.instance.logout();
+              },
+            ),
+          ]
+      ),
       ),
       body: Container(
           child: StreamBuilder(

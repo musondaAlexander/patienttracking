@@ -169,9 +169,9 @@ class AuthController extends GetxController {
     print("User Type: ${snapshot.value}");
     // let us now check the type of user we have retrerived from the database
     if (snapshot.value == "User") {
-      Get.to(() => UserHome());
+      Get.offAll(() => UserHome());
     } else if (snapshot.value == "Police") {
-      Get.to(() => const PoliceDashboard());
+     Get.offAll(() => const PoliceDashboard());
     } else if (snapshot.value == "Ambulance") {
       Get.offAll(() => UserHome());
     } else if (snapshot.value == "Fire Brigade") {

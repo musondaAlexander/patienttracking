@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:patienttracking/Features/Police/police_dashboard.dart';
+import 'package:patienttracking/User/screens/PoliceOptions/police_option.dart';
 // import 'package:public_emergency_app/Features/User/Screens/AmbulanceOptions/AmbulanceOptions.dart';
 // import 'package:public_emergency_app/Features/User/Screens/FirefighterOptions/firefighter_options.dart';
 // import 'package:public_emergency_app/Features/User/Screens/HospitalOptions/hospital_options.dart';
@@ -56,7 +56,7 @@ class GridDashboard extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               if (data.title == "Police") {
-                Get.to(() => const PoliceDashboard(),
+                Get.to(() => const PoliceOptions(),
                     transition: Transition.rightToLeft,
                     duration: const Duration(milliseconds: 200));
                 // } else if (data.title == "Fire Brigade") {

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:patienttracking/commonScreens/Location/shared_map_location_output.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,15 +23,17 @@ class _PoliceOptionsState extends State<PoliceOptions> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.lightBlueAccent,
-        title: const Center(
-            child: Text(
+        title: 
+          const Text(
           'Police Options',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
-        )),
+
+        ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
