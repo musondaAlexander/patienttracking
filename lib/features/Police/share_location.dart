@@ -38,7 +38,7 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
             color: Colors.white,
           ),
         ),
-        title: const Center(
+        title: Center(
             child: Text(
           'Live location',
           style: TextStyle(

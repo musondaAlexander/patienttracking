@@ -305,7 +305,8 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
                   ),
                 );
               },
-            ))
+            ),
+            )
           ],
         ),
       ),

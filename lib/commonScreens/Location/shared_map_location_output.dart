@@ -24,8 +24,8 @@ class _MyLocationMapState extends State<MyLocationMap> {
   StreamSubscription<loc.LocationData>? _locationSubscription;
 
   // Three variables to hold the user Data from the location
-  late double latitude = 0.0;
-  late double longitude = 0.0;
+  double latitude = 0.0;
+  double longitude = 0.0;
   String? userEmail;
   FirebaseAuth _auth = FirebaseAuth.instance;
   late User userID;
