@@ -92,222 +92,225 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
         ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: Get.height * 0.1,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(250, 50),
-                elevation: 15,
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.lightBlueAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: Get.height * 0.1,
               ),
-              onPressed: () {
-                _getLocationrRD();
-                // _getLocation();
-              },
-              child: const Text(
-                'Add my location',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(250, 50),
-                elevation: 15,
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.lightBlueAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-              ),
-              onPressed: () {
-                // _listenLocation();
-                _listenLocationRD();
-              },
-              child: const Text(
-                'Enable live location',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                elevation: 15,
-                minimumSize: const Size(250, 50),
-                foregroundColor: Colors.white,
-                backgroundColor: Colors.lightBlueAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-              ),
-              onPressed: () {
-                _stopListening();
-              },
-              child: const Text(
-                'Stop live location',
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white),
-              ),
-            ),
-            SizedBox(
-              height: Get.height * 0.05,
-            ),
-            Expanded(
-                child: StreamBuilder(
-              stream: ref.child(userID.uid).onValue,
-              // FirebaseFirestore.instance.collection('location').snapshots(),
-              builder: (context, AsyncSnapshot snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.0,
-                      valueColor:
-                          AlwaysStoppedAnimation(Colors.lightBlueAccent),
-                    ),
-                  );
-                } else if (snapshot.hasData) {
-                  // set the Three variables to hold the user Data from the location
-                  Map<dynamic, dynamic> map =
-                      snapshot.data.snapshot.value ?? {};
-                  latitude = map['latitude'];
-                  longitude = map['longitude'];
-                  userEmail = map['userEmail'];
-                }
-
-                //     itemCount: snapshot.data?.docs.length,
-                //     itemBuilder: (context, index) {
-                //       return ListTile(
-                //         title: Text(
-                //           snapshot.data!.docs[index]['userEmail'].toString(),
-                //           style: const TextStyle(
-                //             fontSize: 20,
-                //             fontWeight: FontWeight.w700,
-                //           ),
-                //         ),
-                //         subtitle: Row(
-                //           children: [
-                //             Text(snapshot.data!.docs[index]['latitude']
-                //                 .toString()),
-                //             const SizedBox(
-                //               width: 20,
-                //             ),
-                //             Text(snapshot.data!.docs[index]['longitude']
-                //                 .toString()),
-                //           ],
-                //         ),
-                //         trailing: IconButton(
-                //           icon: const Icon(Icons.directions),
-                //           onPressed: () {
-                //             // Navigator.of(context).push(MaterialPageRoute(
-                //             //     builder: (context) => MyLocationMap(
-                //             //         snapshot.data!.docs[index].id)));
-
-                //             Get.to(
-                //                 MyLocationMap(snapshot.data!.docs[index].id));
-                //           },
-                //         ),
-                //       );
-                //     });
-
-                //         return Column(
-                //           children: [
-                //             Text(
-                //               userEmail.toString(),
-                //               style: const TextStyle(
-                //                 fontSize: 20,
-                //                 fontWeight: FontWeight.w700,
-                //               ),
-                //             ),
-                //             Text(
-                //               latitude.toString(),
-                //               style: const TextStyle(
-                //                 fontSize: 20,
-                //                 fontWeight: FontWeight.w700,
-                //               ),
-                //             ),
-                //             Text(
-                //               longitude.toString(),
-                //               style: const TextStyle(
-                //                 fontSize: 20,
-                //                 fontWeight: FontWeight.w700,
-                //               ),
-                //             ),
-                //           ],
-                //         );
-                //       },
-                //     )),
-                //   ],
-                // ),
-
-                return Card(
-                  // add some style
-                  elevation: 10,
-                  borderOnForeground: true,
-                  color: Colors.white,
-                  margin: EdgeInsets.all(16.0),
-                  child: Column(
-                    children: <Widget>[
-                      ListTile(
-                        leading: Icon(Icons.location_on, color: Colors.blue),
-                        title: Text('Location:'),
-                        subtitle: Text(
-                            'Latitude:\t\t $latitude, \nLongitude:\t $longitude'),
-                      ),
-                      ListTile(
-                        leading: Icon(Icons.email, color: Colors.blue),
-                        title: Text('Email:'),
-                        subtitle: Text("$userEmail"),
-                      ),
-                      SizedBox(height: 20),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 15,
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.lightBlueAccent,
-                        ),
-                        onPressed: () {
-                          Get.to(
-                            () => MyLocationMap(userID.uid),
-                            transition: Transition.rightToLeft,
-                            duration: const Duration(milliseconds: 200),
-                          );
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => MyLocationMap(
-                          //             userID.uid,
-                          //           )),
-                          // );
-                        },
-                        child: const Text('Go To Map'),
-                      ),
-                    ],
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(250, 50),
+                  elevation: 15,
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.lightBlueAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
                   ),
-                );
-              },
-            ),
-            )
-          ],
+                ),
+                onPressed: () {
+                  _getLocationrRD();
+                  // _getLocation();
+                },
+                child: const Text(
+                  'Add my location',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(250, 50),
+                  elevation: 15,
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.lightBlueAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                ),
+                onPressed: () {
+                  // _listenLocation();
+                  _listenLocationRD();
+                },
+                child: const Text(
+                  'Enable live location',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  elevation: 15,
+                  minimumSize: const Size(250, 50),
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.lightBlueAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                ),
+                onPressed: () {
+                  _stopListening();
+                },
+                child: const Text(
+                  'Stop live location',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white),
+                ),
+              ),
+              SizedBox(
+                height: Get.height * 0.05,
+              ),
+              Expanded(
+                child: StreamBuilder(
+                  stream: ref.child(userID.uid).onValue,
+                  // FirebaseFirestore.instance.collection('location').snapshots(),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.0,
+                          valueColor:
+                              AlwaysStoppedAnimation(Colors.lightBlueAccent),
+                        ),
+                      );
+                    } else if (snapshot.hasData) {
+                      // set the Three variables to hold the user Data from the location
+                      Map<dynamic, dynamic> map =
+                          snapshot.data.snapshot.value ?? {};
+                      latitude = map['latitude'];
+                      longitude = map['longitude'];
+                      userEmail = map['userEmail'];
+                    }
+
+                    //     itemCount: snapshot.data?.docs.length,
+                    //     itemBuilder: (context, index) {
+                    //       return ListTile(
+                    //         title: Text(
+                    //           snapshot.data!.docs[index]['userEmail'].toString(),
+                    //           style: const TextStyle(
+                    //             fontSize: 20,
+                    //             fontWeight: FontWeight.w700,
+                    //           ),
+                    //         ),
+                    //         subtitle: Row(
+                    //           children: [
+                    //             Text(snapshot.data!.docs[index]['latitude']
+                    //                 .toString()),
+                    //             const SizedBox(
+                    //               width: 20,
+                    //             ),
+                    //             Text(snapshot.data!.docs[index]['longitude']
+                    //                 .toString()),
+                    //           ],
+                    //         ),
+                    //         trailing: IconButton(
+                    //           icon: const Icon(Icons.directions),
+                    //           onPressed: () {
+                    //             // Navigator.of(context).push(MaterialPageRoute(
+                    //             //     builder: (context) => MyLocationMap(
+                    //             //         snapshot.data!.docs[index].id)));
+
+                    //             Get.to(
+                    //                 MyLocationMap(snapshot.data!.docs[index].id));
+                    //           },
+                    //         ),
+                    //       );
+                    //     });
+
+                    //         return Column(
+                    //           children: [
+                    //             Text(
+                    //               userEmail.toString(),
+                    //               style: const TextStyle(
+                    //                 fontSize: 20,
+                    //                 fontWeight: FontWeight.w700,
+                    //               ),
+                    //             ),
+                    //             Text(
+                    //               latitude.toString(),
+                    //               style: const TextStyle(
+                    //                 fontSize: 20,
+                    //                 fontWeight: FontWeight.w700,
+                    //               ),
+                    //             ),
+                    //             Text(
+                    //               longitude.toString(),
+                    //               style: const TextStyle(
+                    //                 fontSize: 20,
+                    //                 fontWeight: FontWeight.w700,
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         );
+                    //       },
+                    //     )),
+                    //   ],
+                    // ),
+
+                    return Card(
+                      // add some style
+                      elevation: 10,
+                      borderOnForeground: true,
+                      color: Colors.white,
+                      margin: EdgeInsets.all(16.0),
+                      child: Column(
+                        children: <Widget>[
+                          ListTile(
+                            leading:
+                                Icon(Icons.location_on, color: Colors.blue),
+                            title: Text('Location:'),
+                            subtitle: Text(
+                                'Latitude:\t\t $latitude, \nLongitude:\t $longitude'),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.email, color: Colors.blue),
+                            title: Text('Email:'),
+                            subtitle: Text("$userEmail"),
+                          ),
+                          SizedBox(height: 20),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 15,
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.lightBlueAccent,
+                            ),
+                            onPressed: () {
+                              Get.to(
+                                () => MyLocationMap(userID.uid),
+                                transition: Transition.rightToLeft,
+                                duration: const Duration(milliseconds: 200),
+                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => MyLocationMap(
+                              //             userID.uid,
+                              //           )),
+                              // );
+                            },
+                            child: const Text('Go To Map'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

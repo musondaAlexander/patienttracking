@@ -4,10 +4,12 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:location/location.dart';
 import 'package:patienttracking/Features/EmergencyContacts/emergency_contact.dart';
 import 'package:patienttracking/Features/Police/list_of_active_patients.dart';
 import 'package:patienttracking/User/controllers/authentication_controller.dart';
 import 'package:patienttracking/User/controllers/message_sending.dart';
+import 'package:patienttracking/User/screens/LiveStream/live_sreem.dart';
 import 'package:patienttracking/User/screens/LiveStream/sos.dart';
 import 'package:patienttracking/commonScreens/Location/share_location.dart';
 // import 'package:public_emergency_app/Features/User/Screens/LiveStreaming/sos_page.dart';
@@ -34,6 +36,7 @@ final assignmedRef =
 final activeRespondersRef =
     FirebaseDatabase.instance.ref().child('activeResponders');
 final userRef = FirebaseDatabase.instance.ref().child('Users');
+final sosRequests = FirebaseDatabase.instance.ref().child('sos');
 String userType = '';
 final locationController = Get.put(messageController());
 late Position position;
@@ -50,13 +53,27 @@ double calculateDistance(lat1, lon1, lat2, lon2) {
 
 class _PoliceDashboardState extends State<PoliceDashboard> {
   final user = FirebaseAuth.instance.currentUser;
+  LocationData? _currentLocation;
   // var Value = false;
 
   @override
   void initState() {
     super.initState();
     _loadSwitchValue();
+    _initLocation();
     debugPrint(_switchValue.toString());
+  }
+
+  void _initLocation() async {
+    final location = Location();
+    try {
+      final currentLocation = await location.getLocation();
+      setState(() {
+        _currentLocation = currentLocation;
+      });
+    } catch (e) {
+      print("Error getting location: $e");
+    }
   }
 
   Future<void> _loadSwitchValue() async {
@@ -262,7 +279,7 @@ class _PoliceDashboardState extends State<PoliceDashboard> {
       ),
       body: Container(
           child: StreamBuilder(
-        stream: assignmedRef.onValue,
+        stream: sosRequests.onValue,
         builder: (BuildContext context, AsyncSnapshot<DatabaseEvent> snapshot) {
           if (snapshot.hasData) {
             DataSnapshot dataSnapshot = snapshot.data!.snapshot;
@@ -279,11 +296,11 @@ class _PoliceDashboardState extends State<PoliceDashboard> {
                       const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
                   child: ListTile(
                     onTap: () async {
-                      var lat = list['userLat'];
-                      var long = list['userLong'];
+                      var lat = list['lat'];
+                      var long = list['long'];
                       String url = '';
                       String urlAppleMaps = '';
-                      if (list['userLat'] == null || list['userLong'] == null) {
+                      if (list['lat'] == null || list['long'] == null) {
                         Get.snackbar('Error', 'No Emergency Location Found');
                         return;
                       } else {
@@ -334,9 +351,9 @@ class _PoliceDashboardState extends State<PoliceDashboard> {
                     //       color: Colors.white),
                     // ),
                     subtitle: Text(
-                      'Distance: ${list['userLat'] != null && list['userLong'] != null && list['responderLat'] != null && list['responderLong'] != null ? '${calculateDistance(double.tryParse(list['userLat'].toString()) ?? 0.0,
+                      'Distance: ${list['lat'] != null && list['long'] != null && _currentLocation?.latitude != null && _currentLocation?.longitude != null ? '${calculateDistance(double.tryParse(list['lat'].toString()) ?? 0.0,
                           // Use a default value of 0.0 if the parsing fails or the value is null
-                          double.tryParse(list['userLong'].toString()) ?? 0.0, double.tryParse(list['responderLat'].toString()) ?? 0.0, double.tryParse(list['responderLong'].toString()) ?? 0.0).toStringAsFixed(2)} km' : ''}',
+                          double.tryParse(list['long'].toString()) ?? 0.0, double.tryParse(_currentLocation?.latitude as String) ?? 0.0, double.tryParse(_currentLocation?.longitude as String) ?? 0.0).toStringAsFixed(2)} km' : ''}',
                       style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
@@ -346,17 +363,16 @@ class _PoliceDashboardState extends State<PoliceDashboard> {
                         icon: const Icon(Icons.video_call,
                             color: Colors.red, size: 30),
                         onPressed: () {
-                          if (list['userLat'] == null ||
-                              list['userLong'] == null) {
+                          if (list['lat'] == null || list['long'] == null) {
                             Get.snackbar('Error', 'No Emergency Request Yet');
                             return;
                           } else {
-                            // Get.to(
-                            //   () => LiveStreamingPage(
-                            //     liveId: list['userID'],
-                            //     isHost: false,
-                            //   ),
-                            // );
+                            Get.to(
+                              () => LiveStreemVew(
+                                  roomId: user!.uid.toString(),
+                                  userId: list['videoId'],
+                                  isHost: false),
+                            );
                           }
                         }),
                   ),
@@ -410,8 +426,7 @@ class _PoliceDashboardState extends State<PoliceDashboard> {
   setResponderData() async {
     userType = '';
     // await smsController.handleLocationPermission();
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((position) async {
+    await Geolocator.getCurrentPosition().then((position) async {
       try {
         await userRef
             .child(user!.uid.toString())

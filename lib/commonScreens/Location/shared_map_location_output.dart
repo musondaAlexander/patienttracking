@@ -10,12 +10,16 @@ import 'package:patienttracking/commonScreens/Location/share_location.dart';
 
 class MyLocationMap extends StatefulWidget {
   final String userId;
+
   const MyLocationMap(
     this.userId,
   );
 
   @override
   State<MyLocationMap> createState() => _MyLocationMapState();
+
+  //  create a getter method for the userId
+  String get getUserId => userId;
 }
 
 class _MyLocationMapState extends State<MyLocationMap> {
@@ -27,13 +31,14 @@ class _MyLocationMapState extends State<MyLocationMap> {
   double latitude = 0.0;
   double longitude = 0.0;
   String? userEmail;
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  late User userID;
-
+  late String userID;
+  // FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   void initState() {
     super.initState();
-    userID = _auth.currentUser!;
+    // assign the userId to the variable
+    userID = widget.userId;
+    print("User ID: $userID");
     // location.changeSettings(interval: 300, accuracy: loc.LocationAccuracy.high);
     // location.enableBackgroundMode(enable: true);
   }
@@ -64,7 +69,7 @@ class _MyLocationMapState extends State<MyLocationMap> {
       body: Stack(
         children: <Widget>[
           StreamBuilder(
-            stream: ref.child(userID.uid).onValue,
+            stream: ref.child(userID).onValue,
             builder: (context, AsyncSnapshot snapshot) {
               if (_added) {
                 mymap(context, snapshot);
@@ -102,7 +107,7 @@ class _MyLocationMapState extends State<MyLocationMap> {
                       // snapshot.data!.docs.singleWhere((element) =>
                       //     element.id == widget.userId)['longitude'],
                     ),
-                    zoom: 14.47),
+                    zoom: 150.5),
                 onMapCreated: (GoogleMapController controller) async {
                   setState(() {
                     _controller = controller;
