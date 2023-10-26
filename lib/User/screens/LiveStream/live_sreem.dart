@@ -24,6 +24,7 @@ class LiveStreemVew extends StatelessWidget {
       liveID: roomId,
       config: isHost
           ? ZegoUIKitPrebuiltLiveStreamingConfig.host()
+          // : ZegoUIKitPrebuiltLiveStreamingConfig.audience(),
           : ZegoUIKitPrebuiltLiveStreamingConfig.audience()
         ..audioVideoViewConfig.showAvatarInAudioMode = true
         ..audioVideoViewConfig.showSoundWavesInAudioMode = true,

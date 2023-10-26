@@ -107,7 +107,7 @@ class _SOSState extends State<SOS> {
                 // This is the SOS Button
                 // It uses the Cureent user ID as the roomId For the Live Stream
                 // ============================================================
-      
+
                 SizedBox(
                   width: Get.width * 0.8,
                   height: Get.height * 0.2,
@@ -119,6 +119,7 @@ class _SOSState extends State<SOS> {
                       ),
                     ),
                     onPressed: () async {
+                      saveCurrentLocation();
                       Get.to(
                         () => LiveStreemVew(
                             roomId: user!.uid.toString(),

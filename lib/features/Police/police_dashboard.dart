@@ -386,8 +386,8 @@ class _PoliceDashboardState extends State<PoliceDashboard> {
                       } else {
                         Get.to(
                           () => LiveStreemVew(
-                              roomId: user!.uid.toString(),
-                              userId: nextVideoRequest['videoId'],
+                              roomId: nextVideoRequest['videoId'],
+                              userId: user!.uid.toString(),
                               isHost: false),
                         );
                       }
