@@ -94,9 +94,26 @@ class _ActiveUsersState extends State<ActiveUsers> {
                     print(key);
                     final nextpatient = Map<String, dynamic>.from(value);
                     final patientOder = ListTile(
-                      title: Text(nextpatient['userEmail']),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 10),
+                      tileColor: Colors.lightBlueAccent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      title: Text(
+                        nextpatient['userEmail'],
+                        style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white),
+                      ),
                       subtitle: Text(
-                          "Latitude: ${nextpatient['latitude'].toString()} \nLongitude: ${nextpatient['longitude'].toString()}"),
+                        "Latitude: ${nextpatient['latitude'].toString()} \nLongitude: ${nextpatient['longitude'].toString()}",
+                        style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: Color.fromRGBO(255, 255, 255, 1)),
+                      ),
                       trailing: IconButton(
                         icon: const Icon(Icons.directions),
                         onPressed: () {
@@ -115,8 +132,15 @@ class _ActiveUsersState extends State<ActiveUsers> {
                   // userEmail = map['userEmail'];
                 }
                 // The code below Return a  list that Is used to diplay a List of Active users
-                return ListView(
-                  children: tileList,
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 40, horizontal: 10),
+                    child: ListView(
+                      children: tileList,
+                    ),
+                  ),
                 );
                 // ListView.builder(
                 //     itemCount: snapshot.data.snapshot.value.length,
