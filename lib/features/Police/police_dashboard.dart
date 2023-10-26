@@ -5,24 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
-import 'package:patienttracking/Features/EmergencyContacts/emergency_contact.dart';
 import 'package:patienttracking/Features/Police/list_of_active_patients.dart';
 import 'package:patienttracking/User/controllers/authentication_controller.dart';
 import 'package:patienttracking/User/controllers/message_sending.dart';
 import 'package:patienttracking/User/screens/LiveStream/live_sreem.dart';
 import 'package:patienttracking/User/screens/LiveStream/sos.dart';
 import 'package:patienttracking/commonScreens/Location/share_location.dart';
-// import 'package:public_emergency_app/Features/User/Screens/LiveStreaming/sos_page.dart';
-// import 'package:public_emergency_app/Features/User/Screens/Profile/profile_screen.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_switch/sliding_switch.dart';
-// import 'package:url_launcher/url_launcher.dart';
-// import '../User/Controllers/message_sending.dart';
-// import '../User/Screens/LiveStreaming/live_stream.dart';
-import 'dart:math';
-
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:math';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PoliceDashboard extends StatefulWidget {
   const PoliceDashboard({Key? key}) : super(key: key);
@@ -31,14 +23,14 @@ class PoliceDashboard extends StatefulWidget {
 }
 
 final user = FirebaseAuth.instance.currentUser;
-final assignmedRef =
-    FirebaseDatabase.instance.ref().child('assigned/${user!.uid}');
+// final assignmedRef =
+//     FirebaseDatabase.instance.ref().child('assigned/${user!.uid}');
 final activeRespondersRef =
     FirebaseDatabase.instance.ref().child('activeResponders');
 final userRef = FirebaseDatabase.instance.ref().child('Users');
-final sosRequests = FirebaseDatabase.instance.ref().child('sos');
+DatabaseReference ref2 = FirebaseDatabase.instance.ref();
 String userType = '';
-final locationController = Get.put(messageController());
+// final locationController = Get.put(messageController());
 late Position position;
 String status = '';
 bool _switchValue = false;
@@ -279,106 +271,233 @@ class _PoliceDashboardState extends State<PoliceDashboard> {
       ),
       body: Container(
           child: StreamBuilder(
-        stream: sosRequests.onValue,
-        builder: (BuildContext context, AsyncSnapshot<DatabaseEvent> snapshot) {
-          if (snapshot.hasData) {
-            DataSnapshot dataSnapshot = snapshot.data!.snapshot;
-            Map<dynamic, dynamic> list =
-                dataSnapshot.value as dynamic ?? new Map();
+        stream: ref2.child('sos').onValue,
+        builder: (context, AsyncSnapshot snapshot) {
+          //  lets make a patients list
+          final tileList = <ListTile>[];
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 2.0,
+                valueColor: AlwaysStoppedAnimation(Colors.lightBlueAccent),
+              ),
+            );
+          } else if (snapshot.hasData) {
+            Map<String, dynamic> convertMap(Map<dynamic, dynamic> map) {
+              map.forEach((key, value) {
+                if (value is Map) {
+                  // it's a map, process it
+                  value = convertMap(value);
+                }
+              });
+              // use .from to ensure the keys are Strings
+              return Map<String, dynamic>.from(map);
+              // more explicit alternative way:
+              // return Map.fromEntries(map.entries.map((entry) => MapEntry(entry.key.toString(), entry.value)));
+            }
+
+            final activeVideoRequests =
+                Map<String, dynamic>.from(snapshot.data!.snapshot.value);
+
+            // DataSnapshot dataSnapshot = snapshot.data!.snapshot;
+            // Map<dynamic, dynamic> list =
+            //     dataSnapshot.value as dynamic ?? new Map();
             // List<dynamic> list = [];
             // list.clear();
             // list = map.values.toList();
-            return ListView.builder(
-              itemCount: 1,
-              itemBuilder: (context, index) {
-                return Container(
-                  margin:
-                      const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
-                  child: ListTile(
-                    onTap: () async {
-                      var lat = list['lat'];
-                      var long = list['long'];
-                      String url = '';
-                      String urlAppleMaps = '';
-                      if (list['lat'] == null || list['long'] == null) {
-                        Get.snackbar('Error', 'No Emergency Location Found');
+
+            activeVideoRequests.forEach((key, value) {
+              final nextVideoRequest = Map<String, dynamic>.from(value);
+
+              final patientVideoOder = ListTile(
+                onTap: () async {
+                  var lat = nextVideoRequest['lat'];
+                  var long = nextVideoRequest['long'];
+                  String url = '';
+                  String urlAppleMaps = '';
+                  if (nextVideoRequest['lat'] == null ||
+                      nextVideoRequest['long'] == null) {
+                    print("Key for the SOS ${key}");
+                    Get.snackbar('Error', 'No Emergency Location Found');
+                    return;
+                  } else {
+                    if (Platform.isAndroid) {
+                      url =
+                          'https://www.google.com/maps/search/?api=1&query=$lat,$long';
+                      if (await canLaunchUrl(Uri.parse(url))) {
+                        await launchUrl(Uri.parse(url));
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    } else {
+                      urlAppleMaps = 'https://maps.apple.com/?q=$lat,$long';
+                      url =
+                          'comgooglemaps://?saddr=&daddr=$lat,$long&directionsmode=driving';
+                      if (await canLaunchUrl(Uri.parse(url))) {
+                        await launchUrl(Uri.parse(url));
+                      } else if (await canLaunchUrl(Uri.parse(urlAppleMaps))) {
+                        await launchUrl(Uri.parse(urlAppleMaps));
+                      } else {
+                        throw 'Could not launch $url';
+                      }
+                    }
+                  }
+                },
+                tileColor: Colors.lightBlueAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                title: Text(
+                  nextVideoRequest['address'] ?? 'No Emergency Request Yet',
+                  style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white),
+                ),
+                // subtitle: Text(
+                //   // list['userID'],
+                //   'Distance: ${calculateDistance(
+                //       double.parse(list['userLat'].toString()),
+                //       double.parse(list['userLong'].toString()),
+                //       double.parse(list['responderLat'].toString()),
+                //       double.parse(list['responderLong'].toString())).toStringAsFixed(2)} km',
+                //   style: const TextStyle(
+                //       fontSize: 15,
+                //       fontWeight: FontWeight.w700,
+                //       color: Colors.white),
+                // ),
+                subtitle: Text(
+                  'Distance: ${double.tryParse(nextVideoRequest['lat']) != null && double.tryParse(nextVideoRequest['long']) != null && _currentLocation?.latitude != null && _currentLocation?.longitude != null ? '${calculateDistance(double.tryParse(nextVideoRequest['lat']) ?? 0.0,
+                      // Use a default value of 0.0 if the parsing fails or the value is null
+                      double.tryParse(nextVideoRequest['long']) ?? 0.0, _currentLocation?.latitude ?? 0.0, _currentLocation?.longitude ?? 0.0).toStringAsFixed(2)} km' : ''}',
+                  style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white),
+                ),
+                trailing: IconButton(
+                    icon: const Icon(Icons.video_call,
+                        color: Colors.red, size: 30),
+                    onPressed: () {
+                      if (nextVideoRequest['lat'] == null ||
+                          nextVideoRequest['long'] == null) {
+                        Get.snackbar('Error', 'No Emergency Request Yet');
                         return;
                       } else {
-                        if (Platform.isAndroid) {
-                          url =
-                              'https://www.google.com/maps/search/?api=1&query=$lat,$long';
-                          if (await canLaunchUrl(Uri.parse(url))) {
-                            await launchUrl(Uri.parse(url));
-                          } else {
-                            throw 'Could not launch $url';
-                          }
-                        } else {
-                          urlAppleMaps = 'https://maps.apple.com/?q=$lat,$long';
-                          url =
-                              'comgooglemaps://?saddr=&daddr=$lat,$long&directionsmode=driving';
-                          if (await canLaunchUrl(Uri.parse(url))) {
-                            await launchUrl(Uri.parse(url));
-                          } else if (await canLaunchUrl(
-                              Uri.parse(urlAppleMaps))) {
-                            await launchUrl(Uri.parse(urlAppleMaps));
-                          } else {
-                            throw 'Could not launch $url';
-                          }
-                        }
+                        Get.to(
+                          () => LiveStreemVew(
+                              roomId: user!.uid.toString(),
+                              userId: nextVideoRequest['videoId'],
+                              isHost: false),
+                        );
                       }
-                    },
-                    tileColor: Colors.lightBlueAccent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    title: Text(
-                      list['userAddress'] ?? 'No Emergency Request Yet',
-                      style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white),
-                    ),
-                    // subtitle: Text(
-                    //   // list['userID'],
-                    //   'Distance: ${calculateDistance(
-                    //       double.parse(list['userLat'].toString()),
-                    //       double.parse(list['userLong'].toString()),
-                    //       double.parse(list['responderLat'].toString()),
-                    //       double.parse(list['responderLong'].toString())).toStringAsFixed(2)} km',
-                    //   style: const TextStyle(
-                    //       fontSize: 15,
-                    //       fontWeight: FontWeight.w700,
-                    //       color: Colors.white),
-                    // ),
-                    subtitle: Text(
-                      'Distance: ${list['lat'] != null && list['long'] != null && _currentLocation?.latitude != null && _currentLocation?.longitude != null ? '${calculateDistance(double.tryParse(list['lat'].toString()) ?? 0.0,
-                          // Use a default value of 0.0 if the parsing fails or the value is null
-                          double.tryParse(list['long'].toString()) ?? 0.0, double.tryParse(_currentLocation?.latitude as String) ?? 0.0, double.tryParse(_currentLocation?.longitude as String) ?? 0.0).toStringAsFixed(2)} km' : ''}',
-                      style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white),
-                    ),
-                    trailing: IconButton(
-                        icon: const Icon(Icons.video_call,
-                            color: Colors.red, size: 30),
-                        onPressed: () {
-                          if (list['lat'] == null || list['long'] == null) {
-                            Get.snackbar('Error', 'No Emergency Request Yet');
-                            return;
-                          } else {
-                            Get.to(
-                              () => LiveStreemVew(
-                                  roomId: user!.uid.toString(),
-                                  userId: list['videoId'],
-                                  isHost: false),
-                            );
-                          }
-                        }),
-                  ),
-                );
-              },
+                    }),
+              );
+              print(key);
+              tileList.add(patientVideoOder);
+            });
+
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+              child: Container(
+                margin:
+                    const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
+                child: ListView(
+                  children: tileList,
+                ),
+              ),
             );
+            // return ListView.builder(
+            //   itemCount: 1,
+            //   itemBuilder: (context, index) {
+            //     return Container(
+            //       margin:
+            //           const EdgeInsets.symmetric(vertical: 40, horizontal: 10),
+            //       child: ListTile(
+            //         onTap: () async {
+            //           var lat = list['lat'];
+            //           var long = list['long'];
+            //           String url = '';
+            //           String urlAppleMaps = '';
+            //           if (list['lat'] == null || list['long'] == null) {
+            //             Get.snackbar('Error', 'No Emergency Location Found');
+            //             return;
+            //           } else {
+            //             if (Platform.isAndroid) {
+            //               url =
+            //                   'https://www.google.com/maps/search/?api=1&query=$lat,$long';
+            //               if (await canLaunchUrl(Uri.parse(url))) {
+            //                 await launchUrl(Uri.parse(url));
+            //               } else {
+            //                 throw 'Could not launch $url';
+            //               }
+            //             } else {
+            //               urlAppleMaps = 'https://maps.apple.com/?q=$lat,$long';
+            //               url =
+            //                   'comgooglemaps://?saddr=&daddr=$lat,$long&directionsmode=driving';
+            //               if (await canLaunchUrl(Uri.parse(url))) {
+            //                 await launchUrl(Uri.parse(url));
+            //               } else if (await canLaunchUrl(
+            //                   Uri.parse(urlAppleMaps))) {
+            //                 await launchUrl(Uri.parse(urlAppleMaps));
+            //               } else {
+            //                 throw 'Could not launch $url';
+            //               }
+            //             }
+            //           }
+            //         },
+            //         tileColor: Colors.lightBlueAccent,
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(15),
+            //         ),
+            //         title: Text(
+            //           list['userAddress'] ?? 'No Emergency Request Yet',
+            //           style: const TextStyle(
+            //               fontSize: 20,
+            //               fontWeight: FontWeight.w700,
+            //               color: Colors.white),
+            //         ),
+            //         // subtitle: Text(
+            //         //   // list['userID'],
+            //         //   'Distance: ${calculateDistance(
+            //         //       double.parse(list['userLat'].toString()),
+            //         //       double.parse(list['userLong'].toString()),
+            //         //       double.parse(list['responderLat'].toString()),
+            //         //       double.parse(list['responderLong'].toString())).toStringAsFixed(2)} km',
+            //         //   style: const TextStyle(
+            //         //       fontSize: 15,
+            //         //       fontWeight: FontWeight.w700,
+            //         //       color: Colors.white),
+            //         // ),
+            //         subtitle: Text(
+            //           'Distance: ${list['lat'] != null && list['long'] != null && _currentLocation?.latitude != null && _currentLocation?.longitude != null ? '${calculateDistance(double.tryParse(list['lat'].toString()) ?? 0.0,
+            //               // Use a default value of 0.0 if the parsing fails or the value is null
+            //               double.tryParse(list['long'].toString()) ?? 0.0, double.tryParse(_currentLocation?.latitude as String) ?? 0.0, double.tryParse(_currentLocation?.longitude as String) ?? 0.0).toStringAsFixed(2)} km' : ''}',
+            //           style: const TextStyle(
+            //               fontSize: 15,
+            //               fontWeight: FontWeight.w700,
+            //               color: Colors.white),
+            //         ),
+            //         trailing: IconButton(
+            //             icon: const Icon(Icons.video_call,
+            //                 color: Colors.red, size: 30),
+            //             onPressed: () {
+            //               if (list['lat'] == null || list['long'] == null) {
+            //                 Get.snackbar('Error', 'No Emergency Request Yet');
+            //                 return;
+            //               } else {
+            //                 Get.to(
+            //                   () => LiveStreemVew(
+            //                       roomId: user!.uid.toString(),
+            //                       userId: list['videoId'],
+            //                       isHost: false),
+            //                 );
+            //               }
+            //             }),
+            //       ),
+            //     );
+            //   },
+            // );
           }
           return const Center(
             child: CircularProgressIndicator(),

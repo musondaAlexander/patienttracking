@@ -7,7 +7,7 @@ import 'package:patienttracking/commonScreens/Location/share_location.dart';
 
 class MyLocationMap extends StatefulWidget {
   final String userId;
-  const MyLocationMap(this.userId);
+  const MyLocationMap(this.userId, {super.key});
 
   @override
   State<MyLocationMap> createState() => _MyLocationMapState();
@@ -89,15 +89,19 @@ class _MyLocationMapState extends State<MyLocationMap> {
       ),
     );
   }
+
   Future<void> mymap(AsyncSnapshot<QuerySnapshot> snapshot) async {
-    await _controller
-        .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+    await _controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
             target: LatLng(
               snapshot.data!.docs.singleWhere(
                   (element) => element.id == widget.userId)['latitude'],
               snapshot.data!.docs.singleWhere(
                   (element) => element.id == widget.userId)['longitude'],
             ),
-            zoom: 14.47),),);
+            zoom: 14.47),
+      ),
+    );
   }
 }
