@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:patienttracking/Features/Police/list_of_active_patients.dart';
 import 'package:patienttracking/User/controllers/authentication_controller.dart';
-import 'package:patienttracking/User/controllers/message_sending.dart';
 import 'package:patienttracking/User/screens/LiveStream/live_sreem.dart';
 import 'package:patienttracking/User/screens/LiveStream/sos.dart';
 import 'package:patienttracking/commonScreens/Location/share_location.dart';
