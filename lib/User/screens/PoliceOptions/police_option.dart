@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:patienttracking/User/screens/PoliceOptions/list_of_active_officers.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -23,15 +24,13 @@ class _PoliceOptionsState extends State<PoliceOptions> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
         backgroundColor: Colors.lightBlueAccent,
-        title: 
-          const Text(
+        title: const Text(
           'Police Options',
           style: TextStyle(
             color: Colors.white,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
-
         ),
         centerTitle: true,
       ),
@@ -97,7 +96,7 @@ class _PoliceOptionsState extends State<PoliceOptions> {
                 subtitle:
                     const Text('Find the nearest police officers on the map'),
                 onTap: () {
-                  // Get.to(MyLocationMap());
+                  Get.to(const AcivePoliceOfficers());
                 },
               ),
             ),

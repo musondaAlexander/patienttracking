@@ -37,150 +37,154 @@ class _ActiveUsersState extends State<ActiveUsers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 100,
-          iconTheme: const IconThemeData(color: Colors.white),
-          backgroundColor: Colors.lightBlueAccent,
-          title: const Text(
-            'Active Users',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+      appBar: AppBar(
+        toolbarHeight: 100,
+        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: Colors.lightBlueAccent,
+        title: const Text(
+          'Active Users',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
           ),
-          centerTitle: true,
         ),
-        body: Center(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          SizedBox(
-            height: Get.height * 0.1,
-          ),
-          Expanded(
-            child: StreamBuilder(
-              stream: ref2.child('Location').onValue,
-              builder: (context, AsyncSnapshot snapshot) {
-                //  lets make a patients list
-                final tileList = <ListTile>[];
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2.0,
-                      valueColor:
-                          AlwaysStoppedAnimation(Colors.lightBlueAccent),
-                    ),
-                  );
-                } else if (snapshot.hasData) {
-                  // set the Three variables to hold the user Data from the location
-
-                  // recursively convert the map
-                  Map<String, dynamic> convertMap(Map<dynamic, dynamic> map) {
-                    map.forEach((key, value) {
-                      if (value is Map) {
-                        // it's a map, process it
-                        value = convertMap(value);
-                      }
-                    });
-                    // use .from to ensure the keys are Strings
-                    return Map<String, dynamic>.from(map);
-                    // more explicit alternative way:
-                    // return Map.fromEntries(map.entries.map((entry) => MapEntry(entry.key.toString(), entry.value)));
-                  }
-
-                  final activePatients =
-                      Map<String, dynamic>.from(snapshot.data!.snapshot.value);
-                  activePatients.forEach((key, value) {
-                    print(key);
-                    final nextpatient = Map<String, dynamic>.from(value);
-                    final patientOder = ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
-                      tileColor: Colors.lightBlueAccent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      title: Text(
-                        nextpatient['userEmail'],
-                        style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
-                      ),
-                      subtitle: Text(
-                        "Latitude: ${nextpatient['latitude'].toString()} \nLongitude: ${nextpatient['longitude'].toString()}",
-                        style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Color.fromRGBO(255, 255, 255, 1)),
-                      ),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.directions),
-                        onPressed: () {
-                          Get.to(() => MyLocationMap(key));
-                        },
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: Get.height * 0.1,
+            ),
+            Expanded(
+              child: StreamBuilder(
+                stream: ref2.child('Location').onValue,
+                builder: (context, AsyncSnapshot snapshot) {
+                  //  lets make a patients list
+                  final tileList = <ListTile>[];
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.0,
+                        valueColor:
+                            AlwaysStoppedAnimation(Colors.lightBlueAccent),
                       ),
                     );
-                    tileList.add(patientOder);
-                  });
-                  //=========================================================================================
+                  } else if (snapshot.hasData) {
+                    // set the Three variables to hold the user Data from the location
 
-                  // Map<dynamic, dynamic> map =
-                  //     snapshot.data.snapshot.value ?? {};
-                  // latitude = map['latitude'];
-                  // longitude = map['longitude'];
-                  // userEmail = map['userEmail'];
-                }
-                // The code below Return a  list that Is used to diplay a List of Active users
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: 40, horizontal: 10),
-                    child: ListView(
-                      children: tileList,
+                    // recursively convert the map
+                    Map<String, dynamic> convertMap(Map<dynamic, dynamic> map) {
+                      map.forEach((key, value) {
+                        if (value is Map) {
+                          // it's a map, process it
+                          value = convertMap(value);
+                        }
+                      });
+                      // use .from to ensure the keys are Strings
+                      return Map<String, dynamic>.from(map);
+                      // more explicit alternative way:
+                      // return Map.fromEntries(map.entries.map((entry) => MapEntry(entry.key.toString(), entry.value)));
+                    }
+
+                    final activePatients = Map<String, dynamic>.from(
+                        snapshot.data!.snapshot.value);
+                    activePatients.forEach((key, value) {
+                      print(key);
+                      final nextpatient = Map<String, dynamic>.from(value);
+                      final patientOder = ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        tileColor: Colors.lightBlueAccent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        title: Text(
+                          nextpatient['userEmail'],
+                          style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white),
+                        ),
+                        subtitle: Text(
+                          "Latitude: ${nextpatient['latitude'].toString()} \nLongitude: ${nextpatient['longitude'].toString()}",
+                          style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                              color: Color.fromRGBO(255, 255, 255, 1)),
+                        ),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.directions),
+                          onPressed: () {
+                            Get.to(() => MyLocationMap(key));
+                          },
+                        ),
+                      );
+                      tileList.add(patientOder);
+                    });
+                    //=========================================================================================
+
+                    // Map<dynamic, dynamic> map =
+                    //     snapshot.data.snapshot.value ?? {};
+                    // latitude = map['latitude'];
+                    // longitude = map['longitude'];
+                    // userEmail = map['userEmail'];
+                  }
+                  // The code below Return a  list that Is used to diplay a List of Active users
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 40, horizontal: 10),
+                      child: ListView(
+                        children: tileList,
+                      ),
                     ),
-                  ),
-                );
-                // ListView.builder(
-                //     itemCount: snapshot.data.snapshot.value.length,
-                //     itemBuilder: (context, index) {
-                //       return ListTile(
-                //         title: Text(
-                //           snapshot.data!.snapshot.value[index]['userEmail'].toString(),
-                //           style: const TextStyle(
-                //             fontSize: 20,
-                //             fontWeight: FontWeight.w700,
-                //           ),
-                //         ),
-                //         subtitle: Row(
-                //           children: [
-                //             Text(snapshot.data!.snapshot.value[index]['latitude']
-                //                 .toString()),
-                //             const SizedBox(
-                //               width: 20,
-                //             ),
-                //             Text(snapshot.data!.snapshot.value[index]['longitude']
-                //                 .toString()),
-                //           ],
-                //         ),
-                //         trailing: IconButton(
-                //           icon: const Icon(Icons.directions),
-                //           onPressed: () {
-                //             // Navigator.of(context).push(MaterialPageRoute(
-                //             //     builder: (context) => MyLocationMap(
-                //             //         snapshot.data!.docs[index].id)));
+                  );
+                  // ListView.builder(
+                  //     itemCount: snapshot.data.snapshot.value.length,
+                  //     itemBuilder: (context, index) {
+                  //       return ListTile(
+                  //         title: Text(
+                  //           snapshot.data!.snapshot.value[index]['userEmail'].toString(),
+                  //           style: const TextStyle(
+                  //             fontSize: 20,
+                  //             fontWeight: FontWeight.w700,
+                  //           ),
+                  //         ),
+                  //         subtitle: Row(
+                  //           children: [
+                  //             Text(snapshot.data!.snapshot.value[index]['latitude']
+                  //                 .toString()),
+                  //             const SizedBox(
+                  //               width: 20,
+                  //             ),
+                  //             Text(snapshot.data!.snapshot.value[index]['longitude']
+                  //                 .toString()),
+                  //           ],
+                  //         ),
+                  //         trailing: IconButton(
+                  //           icon: const Icon(Icons.directions),
+                  //           onPressed: () {
+                  //             // Navigator.of(context).push(MaterialPageRoute(
+                  //             //     builder: (context) => MyLocationMap(
+                  //             //         snapshot.data!.docs[index].id)));
 
-                //             Get.to(
-                //                 MyLocationMap(snapshot.data.snapshot.value[index].id));
-                //           },
-                //         ),
-                //       );
-                //     },);
-              },
+                  //             Get.to(
+                  //                 MyLocationMap(snapshot.data.snapshot.value[index].id));
+                  //           },
+                  //         ),
+                  //       );
+                  //     },);
+                },
+              ),
             ),
-          ),
-        ])));
+          ],
+        ),
+      ),
+    );
   }
 
 // ====================================================================================
