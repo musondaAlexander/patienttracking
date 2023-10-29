@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -38,7 +37,7 @@ class _MyLocationMapState extends State<MyLocationMap> {
     super.initState();
     // assign the userId to the variable
     userID = widget.userId;
-    print("User ID: $userID");
+    // print("User ID: $userID");
     // location.changeSettings(interval: 300, accuracy: loc.LocationAccuracy.high);
     // location.enableBackgroundMode(enable: true);
   }

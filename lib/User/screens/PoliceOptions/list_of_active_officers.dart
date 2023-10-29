@@ -1,7 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:patienttracking/commonScreens/Location/shared_map_location_output.dart';
 
 class AcivePoliceOfficers extends StatefulWidget {
   const AcivePoliceOfficers({super.key});
