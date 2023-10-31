@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:patienttracking/Features/EmergencyContacts/emergency_contact_controller.dart';
-import 'package:patienttracking/commonScreens/nav_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class add_contact extends StatefulWidget {

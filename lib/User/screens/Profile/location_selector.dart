@@ -37,7 +37,7 @@ class _ZambiaLocationSelectorScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Zambia Location Selector'),
+        title: const Text('Zambia Location Selector'),
       ),
       body: Center(
         child: Column(
@@ -61,7 +61,7 @@ class _ZambiaLocationSelectorScreenState
             ],
             Text(
               'Selected Location: $selectedCity, $selectedProvince, Zambia',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
         ),
