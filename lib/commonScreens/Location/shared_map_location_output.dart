@@ -24,7 +24,6 @@ class MyLocationMap extends StatefulWidget {
 class _MyLocationMapState extends State<MyLocationMap> {
   DatabaseReference ref = FirebaseDatabase.instance.ref('Location');
   final loc.Location location = loc.Location();
-  StreamSubscription<loc.LocationData>? _locationSubscription;
 
   // Three variables to hold the user Data from the location
   double latitude = 0.0;
