@@ -8,6 +8,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:patienttracking/Features/Police/police_dashboard.dart';
 import 'package:patienttracking/User/screens/LiveStream/live_sreem.dart';
+import 'package:flutter_dexchange_sms/flutter_dexchange_sms.dart';
+import 'package:patienttracking/User/screens/LiveStream/util.dart';
+import 'package:background_sms/background_sms.dart';
 
 class SOS extends StatefulWidget {
   const SOS({super.key});
@@ -19,6 +22,7 @@ class SOS extends StatefulWidget {
 class _SOSState extends State<SOS> {
   final liveIdController = TextEditingController();
   final String userId = Random().nextInt(900000 + 10000).toString();
+  FlutterDexchangeSms dexchangeSms = FlutterDexchangeSms(apiKey: Utils.SMSKey);
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +123,7 @@ class _SOSState extends State<SOS> {
                       ),
                     ),
                     onPressed: () async {
+                      sendSMS();
                       saveCurrentLocation();
                       Get.to(
                         () => LiveStreemVew(
@@ -166,5 +171,26 @@ class _SOSState extends State<SOS> {
         });
       });
     });
+  }
+
+  // Function to send  SMS
+  void sendSMS() async {
+    // try {
+    //   Future<SendSmsResponse> response = dexchangeSms.sendSms(
+    //       request: SendSmsRequest(
+    //           number: ["+260966851088", "+260777846270"],
+    //           signature: "DSMS",
+    //           content: "YO\nCV ?"));
+    // } on DexchangeApiException catch (e) {
+    //   print(e.toString()); // Handle the exception here
+    // }
+
+    dynamic result = await BackgroundSms.sendMessage(
+        phoneNumber: "0777846270", message: "Message");
+    if (result == SmsStatus.sent) {
+      print("Seeeeeeeent");
+    } else {
+      print("Faaaaaailed");
+    }
   }
 }

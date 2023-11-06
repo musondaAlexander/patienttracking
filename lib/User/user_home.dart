@@ -1,3 +1,4 @@
+import 'package:background_sms/background_sms.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:location/location.dart';
 import 'package:patienttracking/User/screens/LiveStream/sos.dart';
 import 'package:patienttracking/User/screens/Profile/profile_screen.dart';
 import 'package:patienttracking/commonScreens/Location/share_location.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class UserHome extends StatefulWidget {
   @override
@@ -41,6 +43,17 @@ class _UserHomeState extends State<UserHome> {
       });
     } catch (e) {
       print("Error getting location: $e");
+    }
+  }
+
+  handleSmsPermission() async {
+    final status = await Permission.sms.request();
+    if (status.isGranted) {
+      debugPrint("SMS Permission Granted");
+      return true;
+    } else {
+      debugPrint("SMS Permission Denied");
+      return false;
     }
   }
 
@@ -165,6 +178,7 @@ class _UserHomeState extends State<UserHome> {
             const Divider(),
             GestureDetector(
               onTap: () {
+                sendSMS();
                 Get.to(
                   const DangerZones(),
                   transition: Transition.rightToLeft,
@@ -348,5 +362,30 @@ class _UserHomeState extends State<UserHome> {
         ],
       ),
     );
+  }
+
+  // Function to send  SMS
+  void sendSMS() async {
+    dynamic result = await BackgroundSms.isSupportCustomSim;
+    if (result) {
+      print("Support Custom Sim Slot");
+      dynamic result = await BackgroundSms.sendMessage(
+          phoneNumber: "0777846270", message: "Message", simSlot: 1);
+      if (result == SmsStatus.sent) {
+        print("Seeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeent");
+      } else {
+        print("Faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaailed");
+      }
+    } else {
+      print("Not Support Custom Sim Slot");
+      dynamic result = await BackgroundSms.sendMessage(
+          phoneNumber: "0777846270", message: "Message");
+      if (result == SmsStatus.sent) {
+        print("Seeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeent");
+      } else {
+        print(
+            "Faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaailed");
+      }
+    }
   }
 }

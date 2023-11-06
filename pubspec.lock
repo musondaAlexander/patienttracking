@@ -169,6 +169,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.8"
+  either_dart:
+    dependency: transitive
+    description:
+      name: either_dart
+      sha256: "08eaa2eec0e11c2b6528e425c735b916f3b4ffdd7f8da6b94d3d83096bd00749"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   encrypt:
     dependency: transitive
     description:
@@ -310,6 +318,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.2"
+  flutter_dexchange_sms:
+    dependency: "direct main"
+    description:
+      name: flutter_dexchange_sms
+      sha256: bbaa6e4373ad7c72fe4aca043dbaddefa361716ef0e6a04054c5b6732c33491d
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.3"
   flutter_lints:
     dependency: "direct dev"
     description:
