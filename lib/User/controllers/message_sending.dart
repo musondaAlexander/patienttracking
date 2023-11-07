@@ -15,15 +15,15 @@ class messageController extends GetxController {
   Future<bool> _isPermissionGranted() async =>
       await Permission.sms.status.isGranted;
 
-  _sendMessage(String phoneNumber, String message, {int? simSlot}) async {
-    var result = await BackgroundSms.sendMessage(
-        phoneNumber: phoneNumber, message: message, simSlot: simSlot);
-    if (result == SmsStatus.sent) {
-      print("Sent");
-    } else {
-      print("Failed");
-    }
-  }
+  // _sendMessage(String phoneNumber, String message, {int? simSlot}) async {
+  //   var result = await BackgroundSms.sendMessage(
+  //       phoneNumber: phoneNumber, message: message, simSlot: simSlot);
+  //   if (result == SmsStatus.sent) {
+  //     print("Sent");
+  //   } else {
+  //     print("Failed");
+  //   }
+  // }
 
   Future<bool?> get _supportCustomSim async =>
       await BackgroundSms.isSupportCustomSim;
@@ -32,6 +32,9 @@ class messageController extends GetxController {
 
   String? _currentAddress;
   Position? _currentPosition;
+
+// ===============================================================================
+
   void _sendSMS(String message, List<String> recipents) async {
     for (var i = 0; i < recipents.length; i++) {
       String _result = await BackgroundSms.sendMessage(
@@ -44,13 +47,26 @@ class messageController extends GetxController {
     Get.snackbar("SMS", "Distress SMS Sent Successfully");
 
     print(recipents);
-
-    //     await sendSMS(message: message, recipients: recipents, sendDirect: true)
-    //         .catchError((onError) {
-    //   print("ERROR IN SENDING FUNCTION!!!" + onError.toString());
-    // });
-    // print(_result);
   }
+
+// ==============================================================================
+// modified send message Function to send the message to multiple contacts
+
+  _sendMessage(String message, List<String> recipents, {int? simSlot}) async {
+    for (var i = 0; i < recipents.length; i++) {
+      var result = await BackgroundSms.sendMessage(
+          phoneNumber: recipents[i].toString(),
+          message: message,
+          simSlot: simSlot);
+      if (result == SmsStatus.sent) {
+        Get.snackbar("SMS", "Distress SMS Sent Successfully");
+      } else {
+        Get.snackbar("SMS", "Distress not sent");
+      }
+    }
+  }
+
+// ================================================================================
 
   Future<bool> handleLocationPermission() async {
     bool serviceEnabled;
@@ -157,9 +173,15 @@ class messageController extends GetxController {
             "HELP me! There is a $EmergencyType \n https://www.google.com/maps/place/?=${_currentPosition!.latitude}?=${_currentPosition!.longitude}";
         if (await _isPermissionGranted()) {
           if ((await _supportCustomSim)!) {
-            _sendMessage("0777846270", message, simSlot: 1);
-          } else
-            _sendMessage("0966851088", "Hello");
+            // _sendMessage("0964718792", message, simSlot: 1);
+            await emergencyContactsController.loadData().then(
+                (emergencyContacts) =>
+                    _sendMessage(message, emergencyContacts, simSlot: 1));
+          } else {
+            await emergencyContactsController.loadData().then(
+                (emergencyContacts) =>
+                    _sendMessage(message, emergencyContacts));
+          }
         } else
           _getPermission();
       }
