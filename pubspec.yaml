@@ -57,6 +57,7 @@ dependencies:
   sliding_switch: ^1.1.0
   zego_uikit_prebuilt_live_streaming: ^2.21.3
   flutter_dexchange_sms: ^0.0.3
+  zego_uikit_prebuilt_call: ^3.16.0
   
   
   
