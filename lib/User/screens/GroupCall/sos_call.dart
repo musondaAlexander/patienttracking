@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -101,17 +100,10 @@ class _SOSState extends State<SOS> {
                     //     ),
                     //   ),
                     // );
-                    // Get.to(() => LiveStreemVew(
-                    //     roomId: liveIdController.text.toString(),
-                    //     userId: userId,
-                    //     isHost: false));
-
-                    Get.to(
-                      () => LiveCall(
+                    Get.to(() => LiveStreemVew(
                         roomId: liveIdController.text.toString(),
                         userId: userId,
-                      ),
-                    );
+                        isHost: false));
                   },
                   child: const Text("Join Live"),
                 ),
@@ -133,12 +125,6 @@ class _SOSState extends State<SOS> {
                     onPressed: () async {
                       sendSMS();
                       saveCurrentLocation();
-                      // Get.to(
-                      //   () => LiveStreemVew(
-                      //       roomId: user!.uid.toString(),
-                      //       userId: userId,
-                      //       isHost: true),
-                      // );
                       Get.to(
                         () => LiveCall(
                           roomId: user!.uid.toString(),
