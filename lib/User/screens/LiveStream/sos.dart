@@ -45,121 +45,155 @@ class _SOSState extends State<SOS> {
       body: SingleChildScrollView(
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  "Your User ID: $userId",
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  controller: liveIdController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Joing OR start Live Meeting by Inputing ID',
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: Get.height * 0.2,
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    //This Function saves SOS Current user and Location Informaation o the database.
-                    saveCurrentLocation();
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => ZegoLivePage(
-                    //       userId: userId,
-                    //       roomId: lveIdController.text,
-                    //     ),
-                    //   ),
-                    // );
-                    Get.to(() => LiveStreemVew(
-                        roomId: liveIdController.text.toString(),
-                        userId: userId,
-                        isHost: true));
-                  },
-                  child: const Text("Start Live"),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => ZegoLivePage(
-                    //       userId: userId,
-                    //       roomId: lveIdController.text,
-                    //     ),
-                    //   ),
-                    // );
-                    // Get.to(() => LiveStreemVew(
-                    //     roomId: liveIdController.text.toString(),
-                    //     userId: userId,
-                    //     isHost: false));
+                  // Text(
+                  //   "Your User ID: $userId",
+                  // ),
+                  // const SizedBox(
+                  //   height: 20,
+                  // ),
+                  // TextField(
+                  //   controller: liveIdController,
+                  //   decoration: const InputDecoration(
+                  //     border: OutlineInputBorder(),
+                  //     labelText: 'Joing OR start Live Meeting by Inputing ID',
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   height: 20,
+                  // ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     //This Function saves SOS Current user and Location Informaation o the database.
+                  //     saveCurrentLocation();
+                  //     // Navigator.push(
+                  //     //   context,
+                  //     //   MaterialPageRoute(
+                  //     //     builder: (context) => ZegoLivePage(
+                  //     //       userId: userId,
+                  //     //       roomId: lveIdController.text,
+                  //     //     ),
+                  //     //   ),
+                  //     // );
+                  //     Get.to(() => LiveStreemVew(
+                  //         roomId: liveIdController.text.toString(),
+                  //         userId: userId,
+                  //         isHost: true));
+                  //   },
+                  //   child: const Text("Start Live"),
+                  // ),
+                  // const SizedBox(
+                  //   height: 30,
+                  // ),
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     // Navigator.push(
+                  //     //   context,
+                  //     //   MaterialPageRoute(
+                  //     //     builder: (context) => ZegoLivePage(
+                  //     //       userId: userId,
+                  //     //       roomId: lveIdController.text,
+                  //     //     ),
+                  //     //   ),
+                  //     // );
+                  //     // Get.to(() => LiveStreemVew(
+                  //     //     roomId: liveIdController.text.toString(),
+                  //     //     userId: userId,
+                  //     //     isHost: false));
 
-                    Get.to(
-                      () => LiveCall(
-                        roomId: liveIdController.text.toString(),
-                        userId: userId,
-                      ),
-                    );
-                  },
-                  child: const Text("Join Live"),
-                ),
-                // ============================================================
-                // This is the SOS Button
-                // It uses the Cureent user ID as the roomId For the Live Stream
-                // ============================================================
+                  //     Get.to(
+                  //       () => LiveCall(
+                  //         roomId: liveIdController.text.toString(),
+                  //         userId: userId,
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: const Text("Join Live"),
+                  // ),
+                  // ============================================================
+                  // This is the SOS Button
+                  // It uses the Cureent user ID as the roomId For the Live Stream
+                  // ============================================================
 
-                SizedBox(
-                  width: Get.width * 0.8,
-                  height: Get.height * 0.2,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                    ),
-                    onPressed: () async {
-                      sendSMS();
-                      saveCurrentLocation();
-                      // Get.to(
-                      //   () => LiveStreemVew(
-                      //       roomId: user!.uid.toString(),
-                      //       userId: userId,
-                      //       isHost: true),
-                      // );
-                      Get.to(
-                        () => LiveCall(
-                          roomId: user!.uid.toString(),
-                          userId: userId,
+                  SizedBox(
+                    width: Get.width * 0.8,
+                    height: Get.height * 0.2,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
                         ),
-                      );
-                    },
-                    child: const Text("SOS",
-                        style: TextStyle(
-                          fontSize: 40,
-                          color: Colors.white,
-                        )),
+                      ),
+                      onPressed: () async {
+                        sendSMS();
+                        saveCurrentLocation();
+                        // Get.to(
+                        //   () => LiveStreemVew(
+                        //       roomId: user!.uid.toString(),
+                        //       userId: userId,
+                        //       isHost: true),
+                        // );
+                        Get.to(
+                          () => LiveCall(
+                            roomId: user!.uid.toString(),
+                            userId: userId,
+                          ),
+                        );
+                      },
+                      child: const Text("Start Video",
+                          style: TextStyle(
+                            fontSize: 40,
+                            color: Colors.white,
+                          )),
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: Get.width * 0.8,
+                    height: Get.height * 0.2,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.lightBlueAccent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                      ),
+                      onPressed: () async {
+                        sendSMS();
+                        deleteSOSRequest();
+                        // Get.to(
+                        //   () => LiveStreemVew(
+                        //       roomId: user!.uid.toString(),
+                        //       userId: userId,
+                        //       isHost: true),
+                        // );
+                        //  snackbar to show that the SOS has been cleared
+                        Get.snackbar("VIDEO", "Video Request Cleared");
+                      },
+                      child: const Text("Clear Video Request",
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                          )),
+                    ),
+                  ),
+                ],
+              ),
             )),
       ),
     );
   }
 
-  // Function tp store the SOS data in the database
+  // Function to store the SOS data in the database
 
   saveCurrentLocation() async {
     //adding in try catch
@@ -185,6 +219,13 @@ class _SOSState extends State<SOS> {
         });
       });
     });
+  }
+
+  // Function to store to delete the SOS data in the database when the clear button is pressed
+  deleteSOSRequest() {
+    final user = FirebaseAuth.instance.currentUser;
+    final ref = FirebaseDatabase.instance.ref("sos/${user!.uid.toString()}");
+    ref.remove();
   }
 
   // Function to send  SMS
