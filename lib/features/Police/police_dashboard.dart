@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:patienttracking/Features/Police/list_of_active_patients.dart';
 import 'package:patienttracking/User/controllers/authentication_controller.dart';
+import 'package:patienttracking/User/screens/GroupCall/call_page.dart';
 import 'package:patienttracking/User/screens/LiveStream/live_sreem.dart';
 import 'package:patienttracking/User/screens/LiveStream/sos.dart';
 import 'package:patienttracking/commonScreens/Location/share_location.dart';
@@ -384,10 +385,10 @@ class _PoliceDashboardState extends State<PoliceDashboard> {
                         return;
                       } else {
                         Get.to(
-                          () => LiveStreemVew(
-                              roomId: nextVideoRequest['videoId'],
-                              userId: user!.uid.toString(),
-                              isHost: false),
+                          () => LiveCall(
+                            roomId: nextVideoRequest['videoId'],
+                            userId: user!.uid.toString(),
+                          ),
                         );
                       }
                     }),
