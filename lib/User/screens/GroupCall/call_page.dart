@@ -48,6 +48,7 @@ class _LiveCallState extends State<LiveCall> {
         callID: roomID,
         userID: userID,
         userName: "User{$userID}",
+        controller: callController,
         config: ZegoUIKitPrebuiltCallConfig.groupVideoCall(),
       ),
     );
