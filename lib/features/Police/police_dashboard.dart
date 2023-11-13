@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
+import 'package:patienttracking/Features/Police/danger_zones.dart';
 import 'package:patienttracking/Features/Police/list_of_active_patients.dart';
 import 'package:patienttracking/User/controllers/authentication_controller.dart';
 import 'package:patienttracking/User/screens/GroupCall/call_page.dart';
@@ -242,11 +243,11 @@ class _PoliceDashboardState extends State<PoliceDashboard> {
           const Divider(),
           GestureDetector(
             onTap: () {
-              // Get.to(
-              //   // const DangerZones(),
-              //   transition: Transition.rightToLeft,
-              //   duration: const Duration(milliseconds: 300),
-              // );
+              Get.to(
+                FirstResponderScreen(),
+                transition: Transition.rightToLeft,
+                duration: const Duration(milliseconds: 300),
+              );
             },
             child: const ListTile(
               leading: Icon(

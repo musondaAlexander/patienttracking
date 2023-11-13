@@ -61,6 +61,7 @@ class _UserHomeState extends State<UserHome> {
   Widget build(BuildContext context) {
     String userName = "";
     String disease = "";
+    String title = 'BackgroundGeolocation Demo';
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
@@ -180,7 +181,7 @@ class _UserHomeState extends State<UserHome> {
               onTap: () {
                 sendSMS();
                 Get.to(
-                  const DangerZones(),
+                  PatientScreen(),
                   transition: Transition.rightToLeft,
                   duration: const Duration(milliseconds: 300),
                 );
