@@ -561,7 +561,7 @@ class _PoliceDashboardState extends State<PoliceDashboard> {
               "responderID": user!.uid.toString(),
             });
           } else {
-            userType = 'DK BRuh';
+            userType = 'Null';
           }
         });
       } catch (e) {

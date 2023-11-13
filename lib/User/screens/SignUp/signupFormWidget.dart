@@ -142,41 +142,41 @@ class _SignupFormWidgetState extends State<SignupFormWidget> {
                       },
                     ),
                     const Text('User'),
-                    Radio<UserType>(
-                      value: UserType.Police,
-                      groupValue: userType,
-                      onChanged: (UserType? value) {
-                        setState(() {
-                          userType = value!;
-                        });
-                      },
-                    ),
-                    const Text('Police'),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Radio<UserType>(
-                      value: UserType.FireFighter,
-                      groupValue: userType,
-                      onChanged: (UserType? value) {
-                        setState(() {
-                          userType = value!;
-                        });
-                      },
-                    ),
-                    const Text('Fire Fighter'),
-                    Radio<UserType>(
-                      value: UserType.Ambulance,
-                      groupValue: userType,
-                      onChanged: (UserType? value) {
-                        setState(() {
-                          userType = value!;
-                        });
-                      },
-                    ),
-                    const Text('Ambulance'),
+                    //     Radio<UserType>(
+                    //       value: UserType.Police,
+                    //       groupValue: userType,
+                    //       onChanged: (UserType? value) {
+                    //         setState(() {
+                    //           userType = value!;
+                    //         });
+                    //       },
+                    //     ),
+                    //     const Text('Police'),
+                    //   ],
+                    // ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.start,
+                    //   children: [
+                    //     Radio<UserType>(
+                    //       value: UserType.FireFighter,
+                    //       groupValue: userType,
+                    //       onChanged: (UserType? value) {
+                    //         setState(() {
+                    //           userType = value!;
+                    //         });
+                    //       },
+                    //     ),
+                    //     const Text('Fire Fighter'),
+                    //     Radio<UserType>(
+                    //       value: UserType.Ambulance,
+                    //       groupValue: userType,
+                    //       onChanged: (UserType? value) {
+                    //         setState(() {
+                    //           userType = value!;
+                    //         });
+                    //       },
+                    //     ),
+                    //     const Text('Ambulance'),
                   ],
                 )
               ],
