@@ -347,6 +347,7 @@ class _ShareMyLocationState extends State<ShareMyLocation> {
         'latitude': _locationResult.latitude,
         'longitude': _locationResult.longitude,
         'userEmail': user.email,
+        'userPhone': user.phoneNumber,
       }, SetOptions(merge: true));
     } catch (e) {
       print(e);

@@ -30,6 +30,7 @@ class _MyLocationMapState extends State<MyLocationMap> {
   double longitude = 0.0;
   String? userEmail;
   late String userID;
+  late String userPhone;
   // FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   void initState() {
