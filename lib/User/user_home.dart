@@ -179,7 +179,7 @@ class _UserHomeState extends State<UserHome> {
             const Divider(),
             GestureDetector(
               onTap: () {
-                sendSMS();
+                // sendSMS();
                 Get.to(
                   PatientScreen(),
                   transition: Transition.rightToLeft,

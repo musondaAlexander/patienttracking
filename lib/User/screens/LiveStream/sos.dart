@@ -7,6 +7,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:patienttracking/Features/Police/police_dashboard.dart';
+import 'package:patienttracking/User/controllers/message_sending.dart';
 import 'package:patienttracking/User/screens/GroupCall/call_page.dart';
 import 'package:flutter_dexchange_sms/flutter_dexchange_sms.dart';
 import 'package:patienttracking/User/screens/LiveStream/util.dart';
@@ -23,6 +24,7 @@ class _SOSState extends State<SOS> {
   final liveIdController = TextEditingController();
   final String userId = Random().nextInt(900000 + 10000).toString();
   FlutterDexchangeSms dexchangeSms = FlutterDexchangeSms(apiKey: Utils.SMSKey);
+  final smsController = Get.put(messageController());
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +133,8 @@ class _SOSState extends State<SOS> {
                         ),
                       ),
                       onPressed: () async {
-                        sendSMS();
+                        smsController.sendLocationViaSMS(
+                            " Video Call Request and an Emergency at: ");
                         saveCurrentLocation();
                         // Get.to(
                         //   () => LiveStreemVew(
