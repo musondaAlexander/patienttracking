@@ -20,7 +20,7 @@ class AuthController extends GetxController {
   UserIDSession userIDSession = UserIDSession();
   var sessionManager = SessionManager();
 
-  // controllers for loogin in
+  // controllers for logging in
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -51,7 +51,7 @@ class AuthController extends GetxController {
     }
   }
 
-  // Signin Method
+  // Signing-in Method
   void signUp(String username, String email, String password, String Phone,
       String Usertype) async {
     UserCredential? userCredential;

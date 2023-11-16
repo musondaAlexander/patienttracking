@@ -59,9 +59,9 @@ class LogingScreen extends StatelessWidget {
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 8),
-                  child: Column(
+                  child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
                         "Login",
                         style: TextStyle(
@@ -84,7 +84,6 @@ class LogingScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 10),
-              LoginForm(),
               FooterWidget(Texts: "Don't have an account ", Title: "Sign Up"),
             ],
           ),
