@@ -19,7 +19,7 @@ class _USerprofileState extends State<USerprofile> {
   late dynamic address;
   late dynamic province;
   late dynamic city;
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   late User userID;
 
   @override
