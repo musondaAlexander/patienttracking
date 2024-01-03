@@ -147,71 +147,7 @@ class AuthController extends GetxController {
         Get.snackbar("Error", "Too Many Requests");
       }
     }
-    // ===========================================================================
-    //tis was the initial code for user login
-    // ===========================================================================
 
-    // try {
-    //   await auth
-    //       .signInWithEmailAndPassword(email: email, password: password)
-    //       .then((value) async {
-    //     SessionController().userid = value.user!.uid.toString();
-
-    //     userIDSession.saveUserID("userID", value.user!.uid.toString());
-
-    //     String id = userIDSession.getUserID();
-    //     // await sessionManager.set("userID", value.user!.uid.toString());
-    //     // print("User ID: ${value.user!.uid.toString()}");
-    //     // String id = await SessionManager().get("userID");
-    //     print("UID: ${id} ");
-    //     // Here we are setting the user id in the session controller
-    //     Get.snackbar("Success", "Login Successfully:)");
-    //   }).onError((error, stackTrace) {
-    //     if (error == null) {
-    //       Get.snackbar("Error", "Please Enter Email & Password");
-    //     } else if (error.toString().contains("user-not-found")) {
-    //       Get.snackbar("Error", "User Not Found");
-    //     } else if (error.toString().contains("wrong-password")) {
-    //       Get.snackbar("Error", "Wrong Password");
-    //     } else if (error.toString().contains("invalid-email")) {
-    //       Get.snackbar("Error", "Invalid Email");
-    //     } else if (error.toString().contains("network-request-failed")) {
-    //       Get.snackbar("Error", "Network Error");
-    //     } else if (error.toString().contains("too-many-requests")) {
-    //       Get.snackbar("Error", "Too Many Requests");
-    //     } else if (error.toString().contains("user-disabled")) {
-    //       Get.snackbar("Error", "User Disabled");
-    //     } else if (error.toString().contains("operation-not-allowed")) {
-    //       Get.snackbar("Error", "Operation Not Allowed");
-    //     } else if (error.toString().contains("invalid-credential")) {
-    //       Get.snackbar("Error", "Invalid Credential");
-    //     } else if (error
-    //         .toString()
-    //         .contains("account-exists-with-different-credential")) {
-    //       Get.snackbar("Error", "Account Exists With Different Credential");
-    //     } else if (error.toString().contains("requires-recent-login")) {
-    //       Get.snackbar("Error", "Requires Recent Login");
-    //     } else if (error.toString().contains("email-already-in-use")) {
-    //       Get.snackbar("Error", "Email Already In Use");
-    //     } else if (error.toString().contains("weak-password")) {
-    //       Get.snackbar("Error", "Password Should Be At Least 6 Characters");
-    //     } else if (error.toString().contains("invalid-email")) {
-    //       Get.snackbar("Error", "Invalid Email");
-    //     } else if (error.toString().contains("user-not-found")) {
-    //       Get.snackbar("Error", "User Not Found");
-    //     } else if (error.toString().contains("wrong-password")) {
-    //       Get.snackbar("Error", "Wrong Password");
-    //     } else if (error.toString().contains("invalid-email")) {
-    //       Get.snackbar("Error", "Invalid Email");
-    //     } else if (error.toString().contains("network-request-failed")) {
-    //       Get.snackbar("Error", "Network Error");
-    //     } else if (error.toString().contains("too-many-requests")) {
-    //       Get.snackbar("Error", "Too Many Requests");
-    //     }
-    //   });
-    // } catch (error) {
-    //   Get.snackbar("Error", error.toString());
-    // }
   }
 
 //  Logout Method

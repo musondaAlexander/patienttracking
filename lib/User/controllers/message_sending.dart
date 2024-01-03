@@ -15,16 +15,6 @@ class messageController extends GetxController {
   Future<bool> _isPermissionGranted() async =>
       await Permission.sms.status.isGranted;
 
-  // _sendMessage(String phoneNumber, String message, {int? simSlot}) async {
-  //   var result = await BackgroundSms.sendMessage(
-  //       phoneNumber: phoneNumber, message: message, simSlot: simSlot);
-  //   if (result == SmsStatus.sent) {
-  //     print("Sent");
-  //   } else {
-  //     print("Failed");
-  //   }
-  // }
-
   Future<bool?> get _supportCustomSim async =>
       await BackgroundSms.isSupportCustomSim;
   static messageController get instance => Get.find();
@@ -158,17 +148,6 @@ class messageController extends GetxController {
   Future<void> sendLocationViaSMS(String EmergencyType) async {
     await getCurrentPosition().then((_currentAddress) async {
       if (_currentAddress != null) {
-        // Get.snackbar("Location", _currentAddress!);
-        // final Uri smsLaunchUri = Uri(
-        //   scheme: 'sms',
-        //   path: '03177674726',
-        //   queryParameters: <String, String>{
-        //     'body': "HELP me! I am under the water \n http://www.google.com/maps/place/${_currentPosition!.latitude},${_currentPosition!.longitude}"
-        //   },
-        // );
-        // launchUrl(smsLaunchUri);
-        // Get.snackbar("Location",
-        //     "$_currentPosition.latitude, $_currentPosition.longitude ");
         String message =
             "HELP me! There is a $EmergencyType \n https://www.google.com/maps/place/?=${_currentPosition!.latitude}?=${_currentPosition!.longitude}";
         if (await _isPermissionGranted()) {
@@ -186,7 +165,5 @@ class messageController extends GetxController {
           _getPermission();
       }
     });
-
-    // Get.snackbar("Location", "Location not found");
   }
 }
