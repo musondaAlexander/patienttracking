@@ -6,7 +6,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:patienttracking/User/controllers/authentication_controller.dart';
 import 'package:patienttracking/commonScreens/splashscreen.dart';
 import 'package:flutter/services.dart';
-import 'package:dcdg/dcdg.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Required by FlutterConfig
   // await FlutterConfig.loadEnvVariables();
