@@ -1,7 +1,7 @@
 class Utils {
-  static int AppID = 1412447507;
+  static int AppID = 509965091;
   static String AppSign =
-      "575aadefa26dc0da69ec7c3d81949b775c7d494a646c17098bb705219a60db63";
+      "85937de54c8af50467e57f03e7ac5edf26184da006b85e4a9566261256c2c2a9";
   static String SMSKey = "f002bd7d-1070-4e69-bac4-2645354c4418";
 
 // // variables for Video Conferencing
